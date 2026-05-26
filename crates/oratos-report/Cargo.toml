@@ -1,0 +1,14 @@
+[package]
+name = "oratos-report"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Report formatters for Oratos audit results"
+
+[dependencies]
+oratos-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }

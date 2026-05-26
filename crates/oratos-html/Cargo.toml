@@ -1,0 +1,22 @@
+[package]
+name = "oratos-html"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "HTML loading and page extraction for Oratos"
+
+[dependencies]
+anyhow = { workspace = true }
+oratos-core = { workspace = true }
+reqwest = { workspace = true }
+scraper = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }
+walkdir = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }
+tokio = { workspace = true }

@@ -1,0 +1,42 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/oratos-core",
+    "crates/oratos-html",
+    "crates/oratos-audit",
+    "crates/oratos-generate",
+    "crates/oratos-report",
+    "crates/oratos-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/latentmeta/oratos"
+description = "Website visibility intelligence for SEO, accessibility, structured metadata, and AI readiness."
+
+[workspace.dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+html5ever = "0.27"
+markup5ever_rcdom = "0.3"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+scraper = "0.22"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+similar = "2"
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+url = "2"
+walkdir = "2"
+insta = { version = "1", features = ["yaml"] }
+
+oratos-core = { path = "crates/oratos-core" }
+oratos-html = { path = "crates/oratos-html" }
+oratos-audit = { path = "crates/oratos-audit" }
+oratos-generate = { path = "crates/oratos-generate" }
+oratos-report = { path = "crates/oratos-report" }
