@@ -19,3 +19,5 @@ Oratos is a small Rust workspace built around a single idea: extract a page mode
 4. **Score** (0–100 per category, plus overall).
 5. **Render / generate** reports and artifacts.
 
+See [Scoring](scoring.md) for exact weights and penalty math.
+

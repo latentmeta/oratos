@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::location::Location;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Severity {
     Info,
@@ -10,7 +10,7 @@ pub enum Severity {
     Error,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Category {
     Seo,
@@ -38,8 +38,13 @@ impl Finding {
         category: Category,
         message: impl Into<String>,
     ) -> Self {
+        let rule_id = rule_id.into();
+        debug_assert!(
+            is_valid_rule_id(&rule_id),
+            "rule_id should use dot-separated kebab-case segments (e.g. seo.title-too-short)"
+        );
         Self {
-            rule_id: rule_id.into(),
+            rule_id,
             severity,
             category,
             message: message.into(),
@@ -63,4 +68,28 @@ impl Finding {
         self.docs_url = Some(url.into());
         self
     }
+}
+
+fn is_valid_rule_id(rule_id: &str) -> bool {
+    let mut parts = rule_id.split('.');
+    let Some(prefix) = parts.next() else {
+        return false;
+    };
+    if prefix.is_empty()
+        || !prefix
+            .chars()
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-' || c == '_')
+    {
+        return false;
+    }
+    let Some(suffix) = parts.next() else {
+        return true;
+    };
+    if parts.next().is_some() {
+        return false;
+    }
+    !suffix.is_empty()
+        && suffix
+            .chars()
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
 }

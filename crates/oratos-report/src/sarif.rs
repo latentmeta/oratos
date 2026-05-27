@@ -59,7 +59,7 @@ pub fn format_sarif(report: &AuditReport) -> String {
             "tool": {
                 "driver": {
                     "name": "oratos",
-                    "version": report.version,
+                    "version": report.core_version,
                     "informationUri": "https://github.com/latentmeta/oratos",
                     "rules": rules
                 }
@@ -130,5 +130,36 @@ mod tests {
         let sarif: serde_json::Value = serde_json::from_str(&format_sarif(&report)).unwrap();
         let result = &sarif["runs"][0]["results"][0];
         assert!(result.get("locations").is_none());
+    }
+
+    #[test]
+    fn sarif_has_required_schema_fields() {
+        let finding = Finding::new(
+            "seo.missing-title",
+            Severity::Error,
+            Category::Seo,
+            "Missing title",
+        );
+        let page = PageAudit {
+            page: PageRef::new("/index.html"),
+            findings: vec![finding.clone(), finding],
+            scores: oratos_core::CategoryScores::from_findings(&[]),
+        };
+        let report = AuditReport::new(
+            AuditTarget {
+                path_or_url: ".".to_string(),
+                kind: TargetKind::Directory,
+            },
+            vec![page],
+        );
+
+        let sarif: serde_json::Value = serde_json::from_str(&format_sarif(&report)).unwrap();
+        assert_eq!(sarif["version"], "2.1.0");
+        assert!(sarif["runs"][0]["tool"]["driver"]["rules"].is_array());
+        assert!(sarif["runs"][0]["results"].is_array());
+        let rules = sarif["runs"][0]["tool"]["driver"]["rules"]
+            .as_array()
+            .unwrap();
+        assert_eq!(rules.len(), 1);
     }
 }

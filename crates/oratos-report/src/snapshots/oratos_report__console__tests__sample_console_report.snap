@@ -1,0 +1,20 @@
+---
+source: crates/oratos-report/src/console.rs
+assertion_line: 115
+expression: format_console(&sample_report())
+---
+Oratos Audit Report v0.1.0
+Target: ./examples/static_site
+Pages: 1
+
+Scores:
+  Overall:         97.0
+  SEO:             90.0
+  Accessibility:   100.0
+  Structured Data: 100.0
+  LLM Readiness:   100.0
+
+Findings: 1 errors, 0 warnings, 0 info
+
+── /index.html ──
+  [ERROR] [SEO] seo.missing-title: Page is missing a title.

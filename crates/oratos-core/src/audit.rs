@@ -16,6 +16,7 @@ pub enum TargetKind {
     Directory,
     Url,
     File,
+    Missing,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -27,7 +28,7 @@ pub struct PageAudit {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuditReport {
-    pub version: String,
+    pub core_version: String,
     pub target: AuditTarget,
     pub pages: Vec<PageAudit>,
     pub findings: Vec<Finding>,
@@ -42,7 +43,7 @@ impl AuditReport {
         let page_count = pages.len();
 
         Self {
-            version: env!("CARGO_PKG_VERSION").to_string(),
+            core_version: env!("CARGO_PKG_VERSION").to_string(),
             target,
             pages,
             findings,

@@ -17,16 +17,17 @@ pub fn format_html(report: &AuditReport) -> String {
                 Severity::Info => "info",
             };
             findings_html.push_str(&format!(
-                "<li class=\"{class}\"><code>{}</code> — {}</li>\n",
+                "<li class=\"{class}\"><code>{}</code> — {}",
                 html_escape(&f.rule_id),
                 html_escape(&f.message)
             ));
             if let Some(rec) = &f.recommendation {
                 findings_html.push_str(&format!(
-                    "<li class=\"recommendation\">→ {}</li>\n",
+                    "<br><span class=\"recommendation\">Recommendation: {}</span>",
                     html_escape(rec)
                 ));
             }
+            findings_html.push_str("</li>\n");
         }
         findings_html.push_str("</ul></section>\n");
     }
@@ -85,4 +86,36 @@ fn html_escape(s: &str) -> String {
         .replace('<', "&lt;")
         .replace('>', "&gt;")
         .replace('"', "&quot;")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use insta::assert_snapshot;
+    use oratos_core::{
+        AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
+    };
+
+    #[test]
+    fn html_output_snapshot() {
+        let finding = Finding::new(
+            "seo.missing-title",
+            Severity::Error,
+            Category::Seo,
+            "Page is missing a title.",
+        );
+        let page = PageAudit {
+            page: PageRef::new("/index.html"),
+            findings: vec![finding],
+            scores: oratos_core::CategoryScores::from_findings(&[]),
+        };
+        let report = AuditReport::new(
+            AuditTarget {
+                path_or_url: "./examples/static_site".into(),
+                kind: TargetKind::Directory,
+            },
+            vec![page],
+        );
+        assert_snapshot!("sample_html_report", format_html(&report));
+    }
 }

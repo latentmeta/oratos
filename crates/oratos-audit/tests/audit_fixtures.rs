@@ -135,6 +135,20 @@ async fn llm_rule_emits_expected_findings() {
 }
 
 #[tokio::test]
+async fn broken_link_not_confused_by_suffix_collision() {
+    let target = fixture("testdata/suffix_collision_site");
+    let pages = load_pages(target.to_str().unwrap(), &LoadOptions::default())
+        .await
+        .unwrap();
+    let report = audit_pages(target.to_str().unwrap(), &pages);
+
+    assert!(report
+        .findings
+        .iter()
+        .any(|f| { f.rule_id == "seo.broken-internal-link" && f.message.contains("about.html") }));
+}
+
+#[tokio::test]
 async fn site_level_llms_rule_is_not_duplicated_per_page() {
     let target = fixture("testdata/good_site");
     let pages = load_pages(target.to_str().unwrap(), &LoadOptions::default())

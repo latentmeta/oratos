@@ -7,7 +7,7 @@ use oratos_audit::audit_pages;
 use oratos_generate::{
     generate_html_remediation_prompt, generate_llms_txt, generate_metadata_recommendations,
 };
-use oratos_html::{load_file, load_pages, LoadOptions};
+use oratos_html::{load_pages, LoadOptions};
 use oratos_report::ReportFormat;
 use tracing_subscriber::EnvFilter;
 
@@ -196,35 +196,51 @@ async fn run_prompt(command: PromptCommands) -> Result<ExitCode> {
             file_or_url,
             output,
         } => {
-            let pages = if file_or_url.starts_with("http://") || file_or_url.starts_with("https://")
-            {
-                load_pages(&file_or_url, &LoadOptions::default()).await?
-            } else {
-                let path = Path::new(&file_or_url);
-                if path.is_dir() {
-                    let all = load_pages(&file_or_url, &LoadOptions::default()).await?;
-                    let index = all
-                        .iter()
-                        .find(|p| p.url_or_path.ends_with("index.html"))
-                        .or_else(|| all.first());
-                    index.map(|p| vec![p.clone()]).unwrap_or(all)
+            let (audit_target, audit_pages_set, page) =
+                if file_or_url.starts_with("http://") || file_or_url.starts_with("https://") {
+                    let pages = load_pages(&file_or_url, &LoadOptions::default()).await?;
+                    let page = pages
+                        .first()
+                        .cloned()
+                        .with_context(|| format!("no HTML found at: {file_or_url}"))?;
+                    (file_or_url.clone(), pages, page)
                 } else {
-                    vec![load_file(path)?]
-                }
-            };
+                    let path = Path::new(&file_or_url);
+                    if path.is_dir() {
+                        let all = load_pages(&file_or_url, &LoadOptions::default()).await?;
+                        let page = all
+                            .iter()
+                            .find(|p| p.url_or_path.ends_with("index.html"))
+                            .or_else(|| all.first())
+                            .cloned()
+                            .with_context(|| format!("no HTML found at: {file_or_url}"))?;
+                        (file_or_url.clone(), all, page)
+                    } else if path.is_file() {
+                        let parent = path.parent().unwrap_or(path);
+                        let all = load_pages(&parent.to_string_lossy(), &LoadOptions::default())
+                            .await
+                            .with_context(|| {
+                                format!("failed to load sibling pages from {}", parent.display())
+                            })?;
+                        let canonical_target = path.canonicalize().ok();
+                        let page = all
+                            .iter()
+                            .find(|p| {
+                                std::path::Path::new(&p.url_or_path).canonicalize().ok()
+                                    == canonical_target
+                            })
+                            .cloned()
+                            .or_else(|| all.first().cloned())
+                            .with_context(|| format!("no HTML found at: {file_or_url}"))?;
+                        (parent.to_string_lossy().to_string(), all, page)
+                    } else {
+                        bail!("target not found: {file_or_url}");
+                    }
+                };
 
-            let page = pages
-                .first()
-                .with_context(|| format!("no HTML found at: {file_or_url}"))?;
+            let report = Some(audit_pages(&audit_target, &audit_pages_set));
 
-            let audit_target = if Path::new(&file_or_url).is_dir() {
-                file_or_url.clone()
-            } else {
-                page.url_or_path.clone()
-            };
-            let report = Some(audit_pages(&audit_target, std::slice::from_ref(page)));
-
-            let prompt = generate_html_remediation_prompt(page, report.as_ref());
+            let prompt = generate_html_remediation_prompt(&page, report.as_ref());
             write_output(output.as_deref(), &prompt)?;
         }
     }

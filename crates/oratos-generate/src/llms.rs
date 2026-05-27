@@ -54,7 +54,7 @@ pub fn generate_llms_txt(pages: &[HtmlPage], site_title: Option<&str>) -> String
 }
 
 fn important_pages(pages: &[HtmlPage]) -> Vec<&HtmlPage> {
-    let mut important: Vec<_> = pages
+    let mut important: Vec<&HtmlPage> = pages
         .iter()
         .filter(|p| {
             p.url_or_path.ends_with("index.html")
@@ -62,11 +62,21 @@ fn important_pages(pages: &[HtmlPage]) -> Vec<&HtmlPage> {
                 || p.headings.iter().any(|h| h.level == 1)
         })
         .collect();
-    if important.len() > 10 {
-        important.truncate(10);
+    if important.len() < 10 {
+        for page in pages {
+            if important.iter().any(|p| p.url_or_path == page.url_or_path) {
+                continue;
+            }
+            important.push(page);
+            if important.len() == 10 {
+                break;
+            }
+        }
     }
     if important.is_empty() {
         pages.iter().take(10).collect()
+    } else if important.len() > 10 {
+        important.into_iter().take(10).collect()
     } else {
         important
     }
@@ -123,5 +133,25 @@ mod tests {
         let s = "Good Example Site — Home with extra text";
         let truncated = truncate(s, 20);
         assert!(truncated.ends_with('…'));
+    }
+
+    #[test]
+    fn important_pages_fills_to_ten_when_h1_subset_is_small() {
+        let mut pages = Vec::new();
+        pages.push(parse_html(
+            "/one.html",
+            "<html><head><title>One</title></head><body><h1>One</h1></body></html>",
+            true,
+        ));
+        for i in 2..=12 {
+            let path = format!("/{i}.html");
+            pages.push(parse_html(
+                &path,
+                "<html><head><title>Page</title></head><body><p>body</p></body></html>",
+                true,
+            ));
+        }
+        let selected = important_pages(&pages);
+        assert_eq!(selected.len(), 10);
     }
 }

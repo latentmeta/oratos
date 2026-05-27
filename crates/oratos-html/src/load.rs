@@ -27,7 +27,7 @@ pub async fn load_pages(target: &str, options: &LoadOptions) -> Result<Vec<HtmlP
     }
 }
 
-pub fn load_file(path: &Path) -> Result<HtmlPage> {
+fn load_file(path: &Path) -> Result<HtmlPage> {
     let source = std::fs::read_to_string(path)
         .with_context(|| format!("failed to read {}", path.display()))?;
     let url_or_path = path.to_string_lossy().to_string();
@@ -36,11 +36,7 @@ pub fn load_file(path: &Path) -> Result<HtmlPage> {
 
 fn load_directory(dir: &Path, options: &LoadOptions) -> Result<Vec<HtmlPage>> {
     let mut pages = Vec::new();
-    for entry in WalkDir::new(dir)
-        .follow_links(true)
-        .into_iter()
-        .filter_map(|e| e.ok())
-    {
+    for entry in WalkDir::new(dir).into_iter().filter_map(|e| e.ok()) {
         let path = entry.path();
         if path.is_file() && is_html_file(path) {
             let mut page = load_file(path)?;
@@ -55,7 +51,8 @@ fn load_directory(dir: &Path, options: &LoadOptions) -> Result<Vec<HtmlPage>> {
 }
 
 async fn load_url(url: &str) -> Result<HtmlPage> {
-    let parsed = Url::parse(url).context("invalid URL")?;
+    let normalized_url = normalize_url(url).unwrap_or_else(|_| url.to_string());
+    let parsed = Url::parse(&normalized_url).context("invalid URL")?;
     let client = reqwest::Client::builder()
         .user_agent("oratos/0.1.0 (+https://github.com/latentmeta/oratos)")
         .build()?;
@@ -68,7 +65,7 @@ async fn load_url(url: &str) -> Result<HtmlPage> {
         .text()
         .await
         .context("failed to read response body")?;
-    Ok(parse_html(url, &source, false))
+    Ok(parse_html(&normalized_url, &source, false))
 }
 
 fn is_html_file(path: &Path) -> bool {

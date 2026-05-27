@@ -2,7 +2,7 @@ use oratos_core::{AuditReport, Category, Severity};
 
 pub fn format_console(report: &AuditReport) -> String {
     let mut out = String::new();
-    out.push_str(&format!("Oratos Audit Report v{}\n", report.version));
+    out.push_str(&format!("Oratos Audit Report v{}\n", report.core_version));
     out.push_str(&format!("Target: {}\n", report.target.path_or_url));
     out.push_str(&format!("Pages: {}\n\n", report.page_count));
 
@@ -78,5 +78,40 @@ fn category_label(cat: Category) -> &'static str {
         Category::StructuredData => "DATA",
         Category::LlmReadiness => "LLM ",
         Category::PerformanceHint => "PERF",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use insta::assert_snapshot;
+    use oratos_core::{
+        AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
+    };
+
+    fn sample_report() -> AuditReport {
+        let finding = Finding::new(
+            "seo.missing-title",
+            Severity::Error,
+            Category::Seo,
+            "Page is missing a title.",
+        );
+        let page = PageAudit {
+            page: PageRef::new("/index.html"),
+            findings: vec![finding],
+            scores: oratos_core::CategoryScores::from_findings(&[]),
+        };
+        AuditReport::new(
+            AuditTarget {
+                path_or_url: "./examples/static_site".into(),
+                kind: TargetKind::Directory,
+            },
+            vec![page],
+        )
+    }
+
+    #[test]
+    fn console_output_snapshot() {
+        assert_snapshot!("sample_console_report", format_console(&sample_report()));
     }
 }

@@ -8,6 +8,7 @@ pub fn format_json(report: &AuditReport) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use insta::assert_snapshot;
     use oratos_core::{AuditReport, AuditTarget, TargetKind};
 
     #[test]
@@ -20,11 +21,23 @@ mod tests {
             vec![],
         );
         let json: serde_json::Value = serde_json::from_str(&format_json(&report)).unwrap();
-        assert!(json.get("version").is_some());
+        assert!(json.get("core_version").is_some());
         assert!(json.get("target").is_some());
         assert!(json.get("pages").is_some());
         assert!(json.get("findings").is_some());
         assert!(json.get("scores").is_some());
         assert!(json.get("page_count").is_some());
+    }
+
+    #[test]
+    fn json_output_is_stable_snapshot() {
+        let report = AuditReport::new(
+            AuditTarget {
+                path_or_url: "./test".into(),
+                kind: TargetKind::Directory,
+            },
+            vec![],
+        );
+        assert_snapshot!("empty_report_json", format_json(&report));
     }
 }

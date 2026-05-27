@@ -1,3 +1,6 @@
+use std::collections::HashSet;
+use std::path::Path;
+
 use oratos_core::{Category, Finding, Location, Severity};
 use oratos_html::HtmlPage;
 
@@ -8,8 +11,22 @@ pub trait Rule {
 
 pub struct AuditContext {
     pub site_root: Option<String>,
-    pub known_paths: Vec<String>,
+    pub known_paths: HashSet<String>,
     pub has_llms_txt: bool,
+}
+
+/// Canonical path keys for exact membership checks (no suffix heuristics).
+pub fn build_known_paths(pages: &[HtmlPage]) -> HashSet<String> {
+    pages
+        .iter()
+        .map(|p| normalize_path_key(Path::new(&p.url_or_path)))
+        .collect()
+}
+
+fn normalize_path_key(path: &Path) -> String {
+    path.canonicalize()
+        .map(|p| p.to_string_lossy().replace('\\', "/"))
+        .unwrap_or_else(|_| path.to_string_lossy().replace('\\', "/"))
 }
 
 pub fn all_rules() -> Vec<Box<dyn Rule + Send + Sync>> {
@@ -541,10 +558,6 @@ fn resolve_local_target(page_path: &str, href: &str, ctx: &AuditContext) -> Opti
         return Some(true);
     }
 
-    let normalized = target.to_string_lossy().replace('\\', "/");
-    let found = ctx
-        .known_paths
-        .iter()
-        .any(|p| p.ends_with(&normalized) || normalized.ends_with(p.as_str()));
-    Some(found)
+    let normalized = normalize_path_key(&target);
+    Some(ctx.known_paths.contains(&normalized))
 }

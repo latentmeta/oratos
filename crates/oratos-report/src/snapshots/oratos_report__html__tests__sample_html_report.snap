@@ -1,0 +1,41 @@
+---
+source: crates/oratos-report/src/html.rs
+assertion_line: 119
+expression: format_html(&report)
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Oratos Audit Report</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { border-bottom: 2px solid #333; }
+    .scores { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+    .score { background: #f4f4f5; padding: 1rem; border-radius: 8px; text-align: center; }
+    .score .value { font-size: 2rem; font-weight: bold; }
+    .error { color: #b91c1c; }
+    .warning { color: #b45309; }
+    .info { color: #1d4ed8; }
+    .recommendation { color: #4b5563; font-style: italic; list-style: none; margin-left: 1.5rem; }
+    section.page { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>Oratos Audit Report</h1>
+  <p><strong>Target:</strong> ./examples/static_site</p>
+  <p><strong>Pages:</strong> 1</p>
+  <div class="scores">
+    <div class="score"><div class="value">97</div>Overall</div>
+    <div class="score"><div class="value">90</div>SEO</div>
+    <div class="score"><div class="value">100</div>Accessibility</div>
+    <div class="score"><div class="value">100</div>Structured Data</div>
+    <div class="score"><div class="value">100</div>LLM Readiness</div>
+  </div>
+  <h2>Findings</h2>
+  <section class="page"><h2>/index.html</h2><ul>
+<li class="error"><code>seo.missing-title</code> — Page is missing a title.</li>
+</ul></section>
+
+</body>
+</html>

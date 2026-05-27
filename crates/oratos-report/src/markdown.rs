@@ -3,7 +3,7 @@ use oratos_core::{AuditReport, Severity};
 pub fn format_markdown(report: &AuditReport) -> String {
     let mut out = String::new();
     out.push_str("# Oratos Audit Report\n\n");
-    out.push_str(&format!("**Version:** {}\n\n", report.version));
+    out.push_str(&format!("**Core Version:** {}\n\n", report.core_version));
     out.push_str(&format!("**Target:** `{}`\n\n", report.target.path_or_url));
     out.push_str(&format!("**Pages audited:** {}\n\n", report.page_count));
 
@@ -38,9 +38,9 @@ pub fn format_markdown(report: &AuditReport) -> String {
         out.push_str(&format!("### {}\n\n", page.page.url_or_path));
         for f in &page.findings {
             let badge = match f.severity {
-                Severity::Error => "🔴 Error",
-                Severity::Warning => "🟡 Warning",
-                Severity::Info => "🔵 Info",
+                Severity::Error => "Error",
+                Severity::Warning => "Warning",
+                Severity::Info => "Info",
             };
             out.push_str(&format!(
                 "- **{badge}** `{rule}` — {msg}\n",
@@ -74,5 +74,33 @@ mod tests {
         let md = format_markdown(&report);
         assert!(md.contains("# Oratos Audit Report"));
         assert!(md.contains("## Scores"));
+    }
+
+    #[test]
+    fn markdown_output_snapshot() {
+        use insta::assert_snapshot;
+        use oratos_core::{
+            AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
+        };
+
+        let finding = Finding::new(
+            "seo.missing-title",
+            Severity::Error,
+            Category::Seo,
+            "Page is missing a title.",
+        );
+        let page = PageAudit {
+            page: PageRef::new("/index.html"),
+            findings: vec![finding],
+            scores: oratos_core::CategoryScores::from_findings(&[]),
+        };
+        let report = AuditReport::new(
+            AuditTarget {
+                path_or_url: "./examples/static_site".into(),
+                kind: TargetKind::Directory,
+            },
+            vec![page],
+        );
+        assert_snapshot!("sample_markdown_report", format_markdown(&report));
     }
 }

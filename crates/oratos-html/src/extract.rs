@@ -263,11 +263,7 @@ fn extract_main_text(document: &Html) -> String {
 
 fn text_from_selector(document: &Html, selector: &str) -> Option<String> {
     let sel = Selector::parse(selector).ok()?;
-    let text: String = document
-        .select(&sel)
-        .flat_map(|el| el.text())
-        .collect::<Vec<_>>()
-        .join(" ");
+    let text: String = document.select(&sel).flat_map(|el| el.text()).collect();
     let normalized = normalize_text(&text);
     if normalized.is_empty() {
         None
@@ -301,13 +297,8 @@ fn extract_forms(document: &Html) -> Vec<FormInfo> {
                         continue;
                     }
                     let id_attr = input.value().attr("id");
-                    let has_label = id_attr.is_some_and(|id| {
-                        let label_sel = format!("label[for='{id}']");
-                        Selector::parse(&label_sel)
-                            .ok()
-                            .map(|s| form.select(&s).next().is_some())
-                            .unwrap_or(false)
-                    }) || is_inside_label(&input);
+                    let has_label = id_attr.is_some_and(|id| form_has_label_for(&form, id))
+                        || is_inside_label(&input);
 
                     if !has_label {
                         let name = input
@@ -326,6 +317,14 @@ fn extract_forms(document: &Html) -> Vec<FormInfo> {
             }
         })
         .collect()
+}
+
+fn form_has_label_for(form: &ElementRef<'_>, input_id: &str) -> bool {
+    let Ok(label_sel) = Selector::parse("label[for]") else {
+        return false;
+    };
+    form.select(&label_sel)
+        .any(|label| label.value().attr("for") == Some(input_id))
 }
 
 fn is_inside_label(el: &ElementRef<'_>) -> bool {
@@ -382,5 +381,18 @@ mod tests {
         assert!(is_internal_link("about.html", false));
         // Non-http(s) schemes are treated as internal on remote audits (no absolute URL).
         assert!(is_internal_link("ftp://files.example.com/x", false));
+    }
+
+    #[test]
+    fn form_label_detection_handles_special_characters_in_id() {
+        let html = r#"<!DOCTYPE html>
+        <html lang="en"><body>
+        <form>
+          <label for="user's-name">Name</label>
+          <input id="user's-name" name="name" type="text">
+        </form>
+        </body></html>"#;
+        let page = parse_html("/test.html", html, true);
+        assert!(page.forms[0].inputs_without_label.is_empty());
     }
 }

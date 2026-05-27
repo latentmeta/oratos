@@ -24,6 +24,8 @@ The JSON output is a stable `AuditReport` model intended for CI and tooling inte
 oratos audit ./dist --format json --output report.json
 ```
 
+See [`docs/json-schema.md`](json-schema.md) for the documented stable shape.
+
 ## Markdown / HTML
 
 Use Markdown for PR comments and HTML for human-friendly browsing:

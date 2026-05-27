@@ -1,0 +1,28 @@
+---
+source: crates/oratos-report/src/markdown.rs
+assertion_line: 104
+expression: format_markdown(&report)
+---
+# Oratos Audit Report
+
+**Core Version:** 0.1.0
+
+**Target:** `./examples/static_site`
+
+**Pages audited:** 1
+
+## Scores
+
+| Category | Score |
+|----------|-------|
+| Overall | 97.0 |
+| SEO | 90.0 |
+| Accessibility | 100.0 |
+| Structured Data | 100.0 |
+| LLM Readiness | 100.0 |
+
+## Findings
+
+### /index.html
+
+- **Error** `seo.missing-title` — Page is missing a title.

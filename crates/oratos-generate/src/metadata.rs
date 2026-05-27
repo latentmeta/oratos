@@ -29,10 +29,10 @@ pub struct TwitterRecommendation {
 }
 
 pub fn generate_metadata_recommendations(pages: &[HtmlPage]) -> Vec<MetadataRecommendation> {
-    pages.iter().map(recommend_for_page).collect()
+    pages.iter().map(|p| recommend_for_page(p, pages)).collect()
 }
 
-fn recommend_for_page(page: &HtmlPage) -> MetadataRecommendation {
+fn recommend_for_page(page: &HtmlPage, all_pages: &[HtmlPage]) -> MetadataRecommendation {
     let title = page.title.clone().or_else(|| {
         page.headings
             .iter()
@@ -78,7 +78,7 @@ fn recommend_for_page(page: &HtmlPage) -> MetadataRecommendation {
         &meta_description,
         &canonical_url,
     ));
-    if let Some(org) = organization_json_ld(page) {
+    if let Some(org) = organization_json_ld(page, all_pages) {
         json_ld.push(org);
     }
     if page.breadcrumbs_detected {
@@ -126,8 +126,8 @@ fn webpage_json_ld(
     })
 }
 
-fn organization_json_ld(page: &HtmlPage) -> Option<serde_json::Value> {
-    if !page.url_or_path.contains("index") && page.url_or_path != "/" {
+fn organization_json_ld(page: &HtmlPage, all_pages: &[HtmlPage]) -> Option<serde_json::Value> {
+    if !is_root_page(page, all_pages) {
         return None;
     }
     Some(serde_json::json!({
@@ -136,6 +136,27 @@ fn organization_json_ld(page: &HtmlPage) -> Option<serde_json::Value> {
         "name": page.title,
         "url": page.canonical_urls.first().unwrap_or(&page.url_or_path)
     }))
+}
+
+fn is_root_page(page: &HtmlPage, all_pages: &[HtmlPage]) -> bool {
+    let path = page.url_or_path.trim_end_matches('/');
+    if path.is_empty() || page.url_or_path == "/" || page.url_or_path.ends_with("/index.html") {
+        return true;
+    }
+    let basename = page
+        .url_or_path
+        .rsplit('/')
+        .next()
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    if basename != "index.html" && basename != "index.htm" {
+        return false;
+    }
+    all_pages
+        .iter()
+        .filter(|p| p.url_or_path.ends_with("/index.html"))
+        .count()
+        <= 1
 }
 
 fn breadcrumb_list_json_ld(page: &HtmlPage) -> serde_json::Value {
@@ -194,12 +215,38 @@ fn char_boundary_before(s: &str, max: usize) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::truncate;
+    use super::{generate_metadata_recommendations, truncate};
+    use oratos_html::parse_html;
 
     #[test]
     fn truncate_handles_utf8_boundaries() {
         let s = "Page — metadata with multibyte text";
         let truncated = truncate(s, 10);
         assert!(truncated.ends_with('…'));
+    }
+
+    #[test]
+    fn organization_json_ld_only_for_root_page() {
+        let root = parse_html(
+            "/index.html",
+            "<html><head><title>Root</title></head><body><h1>Home</h1></body></html>",
+            true,
+        );
+        let non_root = parse_html(
+            "/articles/indexing-tips.html",
+            "<html><head><title>Article</title></head><body><h1>Indexing Tips</h1></body></html>",
+            true,
+        );
+        let recs = generate_metadata_recommendations(&[root, non_root]);
+        let root_has_org = recs[0]
+            .json_ld
+            .iter()
+            .any(|v| v["@type"] == serde_json::Value::String("Organization".to_string()));
+        let article_has_org = recs[1]
+            .json_ld
+            .iter()
+            .any(|v| v["@type"] == serde_json::Value::String("Organization".to_string()));
+        assert!(root_has_org);
+        assert!(!article_has_org);
     }
 }

@@ -3,21 +3,25 @@ use std::path::Path;
 use oratos_core::{AuditReport, Category, CategoryScores, Finding, PageAudit, PageRef, Severity};
 use oratos_html::HtmlPage;
 
-use crate::rules::{all_rules, AuditContext};
+use crate::rules::{all_rules, build_known_paths, AuditContext};
 use crate::target::resolve_target;
 
 pub fn audit_pages(target: &str, pages: &[HtmlPage]) -> AuditReport {
-    let audit_target = resolve_target(target);
+    let mut audit_target = resolve_target(target);
+    if audit_target.kind == oratos_core::TargetKind::Missing && !pages.is_empty() {
+        audit_target.kind = if target.starts_with("http://") || target.starts_with("https://") {
+            oratos_core::TargetKind::Url
+        } else {
+            oratos_core::TargetKind::File
+        };
+    }
     let site_root = if audit_target.kind == oratos_core::TargetKind::Directory {
         Some(target.to_string())
     } else {
         None
     };
 
-    let known_paths: Vec<String> = pages
-        .iter()
-        .map(|p| p.url_or_path.replace('\\', "/"))
-        .collect();
+    let known_paths = build_known_paths(pages);
 
     let has_llms_txt = site_root
         .as_ref()

@@ -76,7 +76,9 @@ See [docs/phoenix.md](docs/phoenix.md) and [docs/ci.md](docs/ci.md).
 
 - [Architecture](docs/architecture.md)
 - [Configuration](docs/configuration.md)
-- [Reports](docs/reports.md)
+- [Reports](docs/reports.md) — includes [JSON schema](docs/json-schema.md)
+- [Rule catalog](docs/rules.md)
+- [Scoring](docs/scoring.md)
 - [CI/CD](docs/ci.md)
 - [Phoenix workflows](docs/phoenix.md)
 - [llms.txt](docs/llms-txt.md)
