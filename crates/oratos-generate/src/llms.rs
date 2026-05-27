@@ -86,8 +86,23 @@ fn truncate(s: &str, max: usize) -> String {
     if s.len() <= max {
         s.to_string()
     } else {
-        format!("{}…", &s[..max.saturating_sub(1)])
+        let end = char_boundary_before(s, max.saturating_sub(1));
+        format!("{}…", &s[..end])
     }
+}
+
+fn char_boundary_before(s: &str, max: usize) -> usize {
+    if max >= s.len() {
+        return s.len();
+    }
+    let mut boundary = 0usize;
+    for (idx, _) in s.char_indices() {
+        if idx > max {
+            break;
+        }
+        boundary = idx;
+    }
+    boundary
 }
 
 #[cfg(test)]
@@ -101,5 +116,12 @@ mod tests {
         let txt = generate_llms_txt(&[page], None);
         assert!(txt.contains("# My Site"));
         assert!(txt.contains("Important pages"));
+    }
+
+    #[test]
+    fn truncate_handles_utf8_boundaries() {
+        let s = "Good Example Site — Home with extra text";
+        let truncated = truncate(s, 20);
+        assert!(truncated.ends_with('…'));
     }
 }

@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use oratos_core::{AuditReport, CategoryScores, PageAudit, PageRef};
+use oratos_core::{AuditReport, Category, CategoryScores, Finding, PageAudit, PageRef, Severity};
 use oratos_html::HtmlPage;
 
 use crate::rules::{all_rules, AuditContext};
@@ -50,5 +50,20 @@ pub fn audit_pages(target: &str, pages: &[HtmlPage]) -> AuditReport {
         })
         .collect();
 
-    AuditReport::new(audit_target, page_audits)
+    let mut report = AuditReport::new(audit_target, page_audits);
+
+    if !ctx.has_llms_txt {
+        report.findings.push(
+            Finding::new(
+                "llm.missing-llms-txt",
+                Severity::Info,
+                Category::LlmReadiness,
+                "No llms.txt file found at site root.",
+            )
+            .with_recommendation("Run `oratos generate llms <target>` to create a draft llms.txt."),
+        );
+        report.scores = CategoryScores::from_findings(&report.findings);
+    }
+
+    report
 }

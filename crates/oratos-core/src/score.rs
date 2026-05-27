@@ -93,4 +93,16 @@ mod tests {
         let scores = CategoryScores::from_findings(&findings);
         assert!((scores.seo - 90.0).abs() < f64::EPSILON);
     }
+
+    #[test]
+    fn performance_hint_does_not_affect_scores() {
+        let findings = vec![Finding::new(
+            "perf-hint",
+            Severity::Info,
+            Category::PerformanceHint,
+            "perf hint",
+        )];
+        let scores = CategoryScores::from_findings(&findings);
+        assert!((scores.overall - 100.0).abs() < f64::EPSILON);
+    }
 }

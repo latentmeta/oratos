@@ -223,15 +223,13 @@ impl Rule for SeoRules {
                     Finding::new(
                         "seo.image-missing-dimensions",
                         Severity::Info,
-                        Category::PerformanceHint,
+                        Category::Seo,
                         format!("Image missing width/height attributes: {}", img.src),
                     )
                     .with_recommendation("Add width and height to reduce layout shift."),
                 );
             }
         }
-
-        let _ = loc;
         findings
     }
 }
@@ -427,22 +425,8 @@ impl Rule for LlmReadinessRules {
         "llm-readiness"
     }
 
-    fn check(&self, page: &HtmlPage, ctx: &AuditContext) -> Vec<Finding> {
+    fn check(&self, page: &HtmlPage, _ctx: &AuditContext) -> Vec<Finding> {
         let mut findings = Vec::new();
-
-        if !ctx.has_llms_txt {
-            findings.push(
-                Finding::new(
-                    "llm.missing-llms-txt",
-                    Severity::Info,
-                    Category::LlmReadiness,
-                    "No llms.txt file found at site root.",
-                )
-                .with_recommendation(
-                    "Run `oratos generate llms <target>` to create a draft llms.txt.",
-                ),
-            );
-        }
 
         let weak_title = page.title.as_ref().map(|t| t.len() < 15).unwrap_or(true);
         let weak_desc = page

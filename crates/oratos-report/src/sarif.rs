@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use oratos_core::{AuditReport, Severity};
 
 pub fn format_sarif(report: &AuditReport) -> String {
@@ -10,35 +12,42 @@ pub fn format_sarif(report: &AuditReport) -> String {
                 Severity::Warning => "warning",
                 Severity::Info => "note",
             };
-            serde_json::json!({
+            let mut result = serde_json::json!({
                 "ruleId": f.rule_id,
                 "level": level,
                 "message": {
                     "text": f.message
-                },
-                "locations": f.location.as_ref().map(|loc| {
-                    serde_json::json!([{
-                        "physicalLocation": {
-                            "artifactLocation": {
-                                "uri": loc.page
-                            }
+                }
+            });
+            if let Some(loc) = &f.location {
+                result["locations"] = serde_json::json!([{
+                    "physicalLocation": {
+                        "artifactLocation": {
+                            "uri": loc.page
                         }
-                    }])
-                }).unwrap_or(serde_json::Value::Array(vec![]))
-            })
+                    }
+                }]);
+            }
+            result
         })
         .collect();
 
-    let rules: Vec<serde_json::Value> = report
-        .findings
-        .iter()
-        .map(|f| {
+    let mut rule_index = BTreeMap::<String, (String, Option<String>)>::new();
+    for f in &report.findings {
+        rule_index
+            .entry(f.rule_id.clone())
+            .or_insert((f.message.clone(), f.docs_url.clone()));
+    }
+
+    let rules: Vec<serde_json::Value> = rule_index
+        .into_iter()
+        .map(|(rule_id, (message, docs_url))| {
             serde_json::json!({
-                "id": f.rule_id,
+                "id": rule_id,
                 "shortDescription": {
-                    "text": f.message
+                    "text": message
                 },
-                "helpUri": f.docs_url
+                "helpUri": docs_url
             })
         })
         .collect();
@@ -60,4 +69,66 @@ pub fn format_sarif(report: &AuditReport) -> String {
     });
 
     serde_json::to_string_pretty(&sarif).expect("SARIF serializes")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use oratos_core::{
+        AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
+    };
+
+    #[test]
+    fn sarif_deduplicates_rules_by_id() {
+        let finding = Finding::new(
+            "seo.missing-title",
+            Severity::Error,
+            Category::Seo,
+            "Missing title",
+        );
+        let page = PageAudit {
+            page: PageRef::new("/index.html"),
+            findings: vec![finding.clone(), finding],
+            scores: oratos_core::CategoryScores::from_findings(&[]),
+        };
+        let report = AuditReport::new(
+            AuditTarget {
+                path_or_url: ".".to_string(),
+                kind: TargetKind::Directory,
+            },
+            vec![page],
+        );
+
+        let sarif: serde_json::Value = serde_json::from_str(&format_sarif(&report)).unwrap();
+        let rules = sarif["runs"][0]["tool"]["driver"]["rules"]
+            .as_array()
+            .unwrap();
+        assert_eq!(rules.len(), 1);
+    }
+
+    #[test]
+    fn sarif_omits_locations_when_absent() {
+        let finding = Finding::new(
+            "a11y.missing-html-lang",
+            Severity::Error,
+            Category::Accessibility,
+            "Missing lang",
+        );
+        let page = PageAudit {
+            page: PageRef::new("/index.html"),
+            findings: vec![finding],
+            scores: oratos_core::CategoryScores::from_findings(&[]),
+        };
+        let report = AuditReport::new(
+            AuditTarget {
+                path_or_url: ".".to_string(),
+                kind: TargetKind::Directory,
+            },
+            vec![page],
+        );
+
+        let sarif: serde_json::Value = serde_json::from_str(&format_sarif(&report)).unwrap();
+        let result = &sarif["runs"][0]["results"][0];
+        assert!(result.get("locations").is_none());
+    }
 }
