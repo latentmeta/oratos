@@ -15,7 +15,7 @@ pub fn parse_html(url_or_path: &str, source: &str, base_is_local: bool) -> HtmlP
     let language = select_attr(&document, "html", "lang");
 
     let headings = extract_headings(&document);
-    let links = extract_links(&document, url_or_path, base_is_local);
+    let links = extract_links(&document, base_is_local);
     let images = extract_images(&document);
     let open_graph = extract_open_graph(&document);
     let twitter_card = extract_twitter(&document);
@@ -111,7 +111,7 @@ fn extract_headings(document: &Html) -> Vec<Heading> {
         .collect()
 }
 
-fn extract_links(document: &Html, page_path: &str, base_is_local: bool) -> Vec<LinkInfo> {
+fn extract_links(document: &Html, base_is_local: bool) -> Vec<LinkInfo> {
     let Ok(sel) = Selector::parse("a[href]") else {
         return Vec::new();
     };
@@ -123,7 +123,7 @@ fn extract_links(document: &Html, page_path: &str, base_is_local: bool) -> Vec<L
                 return None;
             }
             let text = normalize_text(&el.text().collect::<String>());
-            let is_internal = is_internal_link(&href, page_path, base_is_local);
+            let is_internal = is_internal_link(&href, base_is_local);
             Some(LinkInfo {
                 href,
                 text,
@@ -133,14 +133,13 @@ fn extract_links(document: &Html, page_path: &str, base_is_local: bool) -> Vec<L
         .collect()
 }
 
-fn is_internal_link(href: &str, page_path: &str, base_is_local: bool) -> bool {
+fn is_internal_link(href: &str, base_is_local: bool) -> bool {
     if href.starts_with("http://") || href.starts_with("https://") {
         return false;
     }
-    if !base_is_local {
-        return !href.starts_with("http");
-    }
-    !href.starts_with("http") || href.contains(page_path)
+    // Local audits: any non-http(s) href is site-relative.
+    // Remote audits: only relative/protocol-relative paths count as internal.
+    base_is_local || !href.starts_with("http")
 }
 
 fn extract_images(document: &Html) -> Vec<ImageInfo> {
@@ -370,5 +369,18 @@ mod tests {
         assert_eq!(page.meta_description.as_deref(), Some("A test page."));
         assert_eq!(page.headings.len(), 2);
         assert_eq!(page.language.as_deref(), Some("en"));
+    }
+
+    #[test]
+    fn is_internal_link_classifies_hrefs() {
+        assert!(!is_internal_link("https://example.com/", true));
+        assert!(!is_internal_link("http://example.com/", false));
+
+        assert!(is_internal_link("about.html", true));
+        assert!(is_internal_link("/docs", true));
+
+        assert!(is_internal_link("about.html", false));
+        // Non-http(s) schemes are treated as internal on remote audits (no absolute URL).
+        assert!(is_internal_link("ftp://files.example.com/x", false));
     }
 }

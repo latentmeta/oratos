@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use oratos_audit::audit_pages;
-use oratos_core::Severity;
+use oratos_core::{Category, Severity};
 use oratos_html::load_pages;
 use oratos_html::LoadOptions;
 
@@ -59,6 +59,25 @@ async fn seo_rule_emits_expected_findings() {
         .findings
         .iter()
         .any(|f| f.rule_id == "seo.image-missing-dimensions"));
+}
+
+#[tokio::test]
+async fn image_missing_dimensions_affects_seo_score() {
+    let target = fixture("testdata/broken_site");
+    let pages = load_pages(target.to_str().unwrap(), &LoadOptions::default())
+        .await
+        .unwrap();
+    let report = audit_pages(target.to_str().unwrap(), &pages);
+
+    let finding = report
+        .findings
+        .iter()
+        .find(|f| f.rule_id == "seo.image-missing-dimensions")
+        .expect("seo.image-missing-dimensions finding");
+    assert_eq!(finding.category, Category::Seo);
+
+    let page = &report.pages[0];
+    assert!(page.scores.seo < 100.0);
 }
 
 #[tokio::test]
