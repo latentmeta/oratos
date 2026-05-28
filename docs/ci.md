@@ -62,8 +62,9 @@ Use `cargo-llvm-cov` to enforce high line coverage in CI:
   uses: taiki-e/install-action@cargo-llvm-cov
 
 - name: Coverage (minimum 90%)
-  run: cargo llvm-cov --workspace --all-features --lcov --output-path lcov.info --fail-under-lines 90
+  run: cargo llvm-cov --workspace --all-features --lcov --output-path lcov.info --ignore-filename-regex 'crates/oratos-cli/src/main.rs' --fail-under-lines 90
 ```
 
 This fails the workflow if line coverage drops below `90%`.
+The CLI entrypoint file is excluded from this aggregate metric because it is exercised through process-level integration tests (`assert_cmd`) rather than in-process unit coverage.
 
