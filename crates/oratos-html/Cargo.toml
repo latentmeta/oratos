@@ -20,3 +20,4 @@ walkdir = { workspace = true }
 [dev-dependencies]
 insta = { workspace = true }
 tokio = { workspace = true }
+wiremock = { workspace = true }

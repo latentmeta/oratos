@@ -5,8 +5,10 @@ on:
   pull_request:
 
 jobs:
-  rust:
+  quality:
     runs-on: ubuntu-latest
+    env:
+      CARGO_TERM_COLOR: always
     steps:
       - uses: actions/checkout@v4
 
@@ -14,14 +16,33 @@ jobs:
         with:
           components: rustfmt, clippy
 
-      - name: Build
-        run: cargo build --verbose
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
 
-      - name: Test
-        run: cargo test --verbose
+      - name: Build
+        run: cargo build --workspace --all-targets --verbose
+
+      - name: Unit tests
+        run: cargo test --workspace --lib --verbose
+
+      - name: Regression and integration tests
+        run: cargo test --workspace --tests --verbose
 
       - name: Clippy
-        run: cargo clippy -- -D warnings
+        run: cargo clippy --workspace --all-targets -- -D warnings
 
       - name: Fmt
         run: cargo fmt --check
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Coverage (minimum 90%)
+        run: cargo llvm-cov --workspace --all-features --lcov --output-path lcov.info --fail-under-lines 90
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcov-report
+          path: lcov.info
+          if-no-files-found: error

@@ -53,3 +53,17 @@ For human-readable PR review, add a JSON or HTML report the same way:
     path: oratos.html
 ```
 
+## Coverage gate
+
+Use `cargo-llvm-cov` to enforce high line coverage in CI:
+
+```yaml
+- name: Install cargo-llvm-cov
+  uses: taiki-e/install-action@cargo-llvm-cov
+
+- name: Coverage (minimum 90%)
+  run: cargo llvm-cov --workspace --all-features --lcov --output-path lcov.info --fail-under-lines 90
+```
+
+This fails the workflow if line coverage drops below `90%`.
+

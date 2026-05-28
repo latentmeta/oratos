@@ -29,6 +29,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = "2"
 walkdir = "2"
 insta = { version = "1", features = ["yaml"] }
+wiremock = "0.6"
 
 oratos-core = { path = "crates/oratos-core" }
 oratos-html = { path = "crates/oratos-html" }
