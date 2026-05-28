@@ -37,10 +37,7 @@ fn assert_rule(html: &str, rule_id: &str) {
 
 fn assert_no_rule(html: &str, rule_id: &str) {
     let report = audit_html_in_temp_dir(html, "index.html");
-    assert!(
-        !has_rule(&report, rule_id),
-        "did not expect rule {rule_id}"
-    );
+    assert!(!has_rule(&report, rule_id), "did not expect rule {rule_id}");
 }
 
 const BASE_HEAD: &str = r#"<!DOCTYPE html><html lang="en"><head>"#;
@@ -298,7 +295,10 @@ fn a11y_image_empty_alt_on_meaningful_image() {
 
 #[test]
 fn a11y_link_empty_text() {
-    let html = good_page().replace(r#"<a href="x">link</a>"#, r#"<a href="https://example.com/x"></a>"#);
+    let html = good_page().replace(
+        r#"<a href="x">link</a>"#,
+        r#"<a href="https://example.com/x"></a>"#,
+    );
     assert_rule(&html, "a11y.link-empty-text");
 }
 
@@ -312,7 +312,10 @@ fn a11y_missing_main_landmark() {
 
 #[test]
 fn a11y_input_without_label() {
-    let html = good_page().replace("</main>", r#"<form><input type="text" id="email" name="email"></form></main>"#);
+    let html = good_page().replace(
+        "</main>",
+        r#"<form><input type="text" id="email" name="email"></form></main>"#,
+    );
     assert_rule(&html, "a11y.input-without-label");
 }
 
