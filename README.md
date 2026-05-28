@@ -4,9 +4,10 @@
 
 Oratos audits and improves websites without owning your workflow. It works on local HTML directories, static exports, and live URLs — useful in CI/CD like Credo, Sobelow, Ruff, or Lighthouse CI.
 
-Repository: [latentmeta/oratos](https://github.com/latentmeta/oratos)  
-  
-[![Coverage Status]([https://coveralls.io/repos/github/latentmeta/oratos/badge.svg?branch=main)](https://coveralls.io/github/latentmeta/oratos?branch=main)](https://coveralls.io/repos/github/latentmeta/oratos/badge.svg?branch=main)](https://coveralls.io/github/latentmeta/oratos?branch=main))
+
+[![Coverage Status](https://coveralls.io/repos/github/latentmeta/oratos/badge.svg?branch=main)](https://coveralls.io/latentmeta/oratos/ex_data_sketch?branch=main)
+
+
 
 ## Install
 
