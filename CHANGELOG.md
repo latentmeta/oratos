@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Workspace crates: `oratos-core`, `oratos-html`, `oratos-audit`, `oratos-generate`, `oratos-report`, `oratos-cli`
+- Workspace crates: `oratos-core`, `oratos-html`, `oratos-audit`, `oratos-generate`, `oratos-report`, `oratos` (CLI)
 - `oratos audit` for local directories, single HTML files, and URLs
 - Report formats: console, JSON, Markdown, HTML, SARIF
 - `oratos generate llms` and `oratos generate metadata`

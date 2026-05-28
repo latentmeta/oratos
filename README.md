@@ -12,6 +12,12 @@ Oratos audits and improves websites without owning your workflow. It works on lo
 ## Install
 
 ```bash
+cargo install oratos
+```
+
+From a git checkout:
+
+```bash
 cargo install --path crates/oratos-cli
 ```
 
@@ -87,6 +93,7 @@ See [docs/phoenix.md](docs/phoenix.md) and [docs/ci.md](docs/ci.md).
 - [llms.txt](docs/llms-txt.md)
 - [Remediation prompts](docs/remediation-prompts.md)
 - [Tutorials](docs/tutorials/)
+- [Publishing to crates.io](docs/publishing.md)
 
 ## Development
 

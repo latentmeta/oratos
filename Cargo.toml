@@ -12,8 +12,15 @@ members = [
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.74"
 license = "MIT"
 repository = "https://github.com/latentmeta/oratos"
+homepage = "https://github.com/latentmeta/oratos"
+documentation = "https://docs.rs/oratos"
+readme = "README.md"
+authors = ["latentmeta"]
+keywords = ["seo", "accessibility", "audit", "html", "llm", "sarif", "structured-data"]
+categories = ["command-line-utilities", "development-tools", "web-programming"]
 description = "Website visibility intelligence for SEO, accessibility, structured metadata, and AI readiness."
 
 [workspace.dependencies]
@@ -31,8 +38,8 @@ walkdir = "2"
 insta = { version = "1", features = ["yaml"] }
 wiremock = "0.6"
 
-oratos-core = { path = "crates/oratos-core" }
-oratos-html = { path = "crates/oratos-html" }
-oratos-audit = { path = "crates/oratos-audit" }
-oratos-generate = { path = "crates/oratos-generate" }
-oratos-report = { path = "crates/oratos-report" }
+oratos-core = { path = "crates/oratos-core", version = "0.1.0" }
+oratos-html = { path = "crates/oratos-html", version = "0.1.0" }
+oratos-audit = { path = "crates/oratos-audit", version = "0.1.0" }
+oratos-generate = { path = "crates/oratos-generate", version = "0.1.0" }
+oratos-report = { path = "crates/oratos-report", version = "0.1.0" }

@@ -2,9 +2,16 @@
 name = "oratos-core"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
-description = "Core types for Oratos website visibility intelligence"
-
+repository.workspace = true
+homepage.workspace = true
+documentation = "https://docs.rs/oratos-core"
+readme.workspace = true
+authors.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Core types and scoring for Oratos website visibility audits"
 [dependencies]
 serde = { workspace = true }
 serde_json = { workspace = true }

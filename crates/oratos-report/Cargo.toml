@@ -2,9 +2,16 @@
 name = "oratos-report"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation = "https://docs.rs/oratos-report"
+readme.workspace = true
+authors.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "Report formatters for Oratos audit results"
-
 [dependencies]
 oratos-core = { workspace = true }
 serde = { workspace = true }

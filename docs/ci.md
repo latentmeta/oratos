@@ -27,7 +27,7 @@ Upload the report as a workflow artifact (or feed it to GitHub Code Scanning whe
 ```yaml
 - name: Oratos audit
   run: |
-    cargo run --release -p oratos-cli -- \
+    cargo run --release -p oratos -- \
       audit ./priv/static \
       --format sarif \
       --output oratos.sarif
@@ -44,7 +44,7 @@ For human-readable PR review, add a JSON or HTML report the same way:
 
 ```yaml
 - name: Oratos HTML report
-  run: cargo run --release -p oratos-cli -- audit ./priv/static --format html --output oratos.html
+  run: cargo run --release -p oratos -- audit ./priv/static --format html --output oratos.html
 
 - name: Upload Oratos HTML report
   uses: actions/upload-artifact@v4
