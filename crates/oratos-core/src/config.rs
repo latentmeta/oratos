@@ -164,6 +164,42 @@ mod tests {
     }
 
     #[test]
+    fn load_returns_none_for_missing_file() {
+        assert!(OratosConfig::load(Path::new("/nonexistent/oratos.toml"))
+            .unwrap()
+            .is_none());
+    }
+
+    #[test]
+    fn load_and_discover_from_temp_dir() {
+        let dir = tempfile::tempdir().unwrap();
+        let cfg_path = dir.path().join("oratos.toml");
+        std::fs::write(
+            &cfg_path,
+            r#"
+[audit]
+fail_under = 90.0
+"#,
+        )
+        .unwrap();
+        let loaded = OratosConfig::load(&cfg_path).unwrap().unwrap();
+        assert_eq!(loaded.audit.fail_under, Some(90.0));
+
+        let nested = dir.path().join("nested");
+        std::fs::create_dir(&nested).unwrap();
+        let discovered = OratosConfig::discover(&nested).unwrap().unwrap();
+        assert_eq!(discovered.1.audit.fail_under, Some(90.0));
+    }
+
+    #[test]
+    fn load_rejects_invalid_toml() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("oratos.toml");
+        std::fs::write(&path, "not = [valid").unwrap();
+        assert!(OratosConfig::load(&path).is_err());
+    }
+
+    #[test]
     fn parses_minimal_config() {
         let raw = r#"
 [audit]

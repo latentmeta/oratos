@@ -50,3 +50,25 @@ impl LlmProvider for OllamaProvider {
         anyhow::bail!("Ollama provider is preview-only in v0.3")
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn provider_ids_and_preview_errors() {
+        let openai = OpenAiCompatibleProvider {
+            base_url: "http://localhost".into(),
+            model: "gpt".into(),
+        };
+        assert_eq!(openai.id(), "openai-compatible");
+        assert!(openai.complete("hi").is_err());
+
+        let ollama = OllamaProvider {
+            base_url: "http://localhost:11434".into(),
+            model: "llama".into(),
+        };
+        assert_eq!(ollama.id(), "ollama");
+        assert!(ollama.complete("hi").is_err());
+    }
+}

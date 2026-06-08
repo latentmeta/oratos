@@ -57,4 +57,41 @@ mod tests {
         let prompt = generate_phoenix_remediation_prompt(&page, None);
         assert!(prompt.contains("priv/static"));
     }
+
+    #[test]
+    fn phoenix_prompt_includes_findings_from_report() {
+        use oratos_core::{
+            AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity,
+            TargetKind,
+        };
+
+        let page = parse_html(
+            "/priv/static/index.html",
+            "<html><head><title>T</title></head><body></body></html>",
+            true,
+        );
+        let finding = Finding::new(
+            "seo.missing-title",
+            Severity::Error,
+            Category::Seo,
+            "missing",
+        );
+        let report = AuditReport::new(
+            AuditTarget {
+                path_or_url: ".".into(),
+                kind: TargetKind::Directory,
+            },
+            vec![PageAudit {
+                page: PageRef {
+                    url_or_path: page.url_or_path.clone(),
+                    title: page.title.clone(),
+                },
+                findings: vec![finding],
+                scores: oratos_core::CategoryScores::from_findings(&[]),
+            }],
+        );
+        let prompt = generate_phoenix_remediation_prompt(&page, Some(&report));
+        assert!(prompt.contains("seo.missing-title"));
+        assert!(prompt.contains("Oratos findings"));
+    }
 }

@@ -201,6 +201,28 @@ fn llm_missing_llms_txt_site_level() {
 }
 
 #[test]
+fn structured_missing_article() {
+    let dir = tempfile::tempdir().unwrap();
+    let root = dir.path().to_str().unwrap();
+    let html = good_page();
+    let page = parse_html("/blog/my-post.html", &html, true);
+    let report = audit_pages(root, std::slice::from_ref(&page));
+    assert!(
+        has_rule(&report, "structured.missing-article"),
+        "blog-like URL should trigger structured.missing-article"
+    );
+}
+
+#[test]
+fn structured_missing_organization() {
+    let html = good_page().replace(
+        r#"<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Test"}</script>"#,
+        "",
+    );
+    assert_rule(&html, "structured.missing-organization");
+}
+
+#[test]
 fn well_formed_page_avoids_common_seo_errors() {
     let html = good_page();
     assert_no_rule(&html, "seo.missing-title");

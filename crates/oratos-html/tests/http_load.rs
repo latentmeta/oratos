@@ -1,4 +1,4 @@
-use oratos_html::{load_pages, LoadOptions};
+use oratos_html::{load_pages, CrawlOptions, LoadOptions};
 use wiremock::matchers::{method, path};
 use wiremock::{Mock, MockServer, ResponseTemplate};
 
@@ -44,4 +44,45 @@ async fn load_pages_strips_url_fragment_before_fetch() {
 
     assert_eq!(pages.len(), 1);
     assert!(!pages[0].url_or_path.contains('#'));
+}
+
+const CRAWL_INDEX: &str = r#"<!DOCTYPE html>
+<html lang="en"><head><title>Home</title></head>
+<body><main><h1>Home</h1><a href="/about.html">About</a></main></body></html>"#;
+
+const CRAWL_ABOUT: &str = r#"<!DOCTYPE html>
+<html lang="en"><head><title>About</title></head>
+<body><main><h1>About page</h1></main></body></html>"#;
+
+#[tokio::test]
+async fn load_pages_crawls_same_origin_links() {
+    let server = MockServer::start().await;
+    for p in ["/", "/index.html", "/about.html"] {
+        let body = if p.contains("about") {
+            CRAWL_ABOUT
+        } else {
+            CRAWL_INDEX
+        };
+        Mock::given(method("GET"))
+            .and(path(p))
+            .respond_with(ResponseTemplate::new(200).set_body_string(body))
+            .mount(&server)
+            .await;
+    }
+
+    let options = LoadOptions {
+        crawl: Some(CrawlOptions {
+            max_pages: 5,
+            max_depth: 2,
+            respect_robots: false,
+            use_sitemap: false,
+        }),
+        ..Default::default()
+    };
+    let pages = load_pages(&server.uri(), &options)
+        .await
+        .expect("crawl load");
+
+    assert!(pages.len() >= 2);
+    assert!(pages.iter().any(|p| p.title.as_deref() == Some("About")));
 }
