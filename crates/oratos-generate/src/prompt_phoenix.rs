@@ -61,8 +61,7 @@ mod tests {
     #[test]
     fn phoenix_prompt_includes_findings_from_report() {
         use oratos_core::{
-            AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity,
-            TargetKind,
+            AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
         };
 
         let page = parse_html(
