@@ -23,6 +23,7 @@ thiserror = { workspace = true }
 tokio = { workspace = true }
 url = { workspace = true }
 walkdir = { workspace = true }
+quick-xml = { workspace = true }
 
 [dev-dependencies]
 insta = { workspace = true }

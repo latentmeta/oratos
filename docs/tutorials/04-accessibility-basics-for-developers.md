@@ -2,36 +2,35 @@
 
 ## Mental model
 
-Accessibility checks ask a simple question: “Can a user with a different input or output modality still understand and operate this page?”
+Oratos checks a practical subset of accessibility: `lang`, alt text, landmarks, form labels, link text, and heading hierarchy.
 
 ## Why it matters
 
-Many accessibility issues are also discoverability issues: missing labels, missing headings, or missing landmarks reduce clarity for humans and machines.
+These issues block real users and often correlate with poor machine extraction (empty link text, missing headings).
 
-## How Oratos models it
+## Try it
 
-Oratos v0.1.0 includes basic checks for:
+```bash
+oratos audit testdata/broken_site --format console | grep A11Y
+```
 
-- missing `lang` on `<html>`
-- missing or suspicious `alt` text on images
-- empty link text
-- missing main landmark (`<main>` or `role="main"`)
-- inputs without labels (best-effort detection)
-- heading hierarchy issues
+Fix findings in HTML, then re-run the audit to confirm scores improve.
 
 ## Implementation notes
 
-These checks are intentionally lightweight and deterministic. Oratos is not a full WCAG engine.
+- Rules in `A11yRules` (`a11y.*` prefix).
+- Decorative images should use `alt=""`; meaningful images need descriptive alt text.
 
 ## Tests
 
-Fixture sites under `testdata/` cover missing alt and missing landmarks.
+```bash
+cargo test -p oratos-audit --test rule_cases -- a11y
+```
 
 ## Limitations
 
-Without browser rendering, some accessible-name checks are not possible in v0.1.0.
+Not a replacement for axe-core or manual screen-reader testing.
 
 ## Future improvements
 
-Richer accessible-name detection and deeper form/label analysis.
-
+Additional ARIA pattern checks in later versions.

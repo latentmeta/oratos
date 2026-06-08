@@ -18,6 +18,12 @@ Notes:
 - `mix phoenix.prerender` (or `mix phx.prerender`) is provided by the `phoenix_prerender` package.
 - Oratos only needs the generated HTML directory (often under `priv/static`).
 
+## Phoenix remediation prompt (v0.2)
+
+```bash
+oratos prompt phoenix priv/static/index.html
+```
+
 ## Mix aliases
 
 ```elixir

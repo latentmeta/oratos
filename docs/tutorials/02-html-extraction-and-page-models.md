@@ -2,43 +2,37 @@
 
 ## Mental model
 
-HTML is both presentation and metadata. Auditing starts by extracting a “page model” that represents what automated systems can read.
+Oratos parses HTML into an `HtmlPage` struct: title, meta tags, headings, links, images, JSON-LD blocks, and approximated main text.
 
 ## Why it matters
 
-Rules become simpler and more testable when they operate on extracted fields instead of raw DOM queries.
+Rules operate on a stable page model, not raw DOM noise, so the same checks work for local files and fetched URLs.
 
-## How Oratos models it
+## Try it
 
-`oratos-html` loads HTML from:
+Audit a minimal fixture:
 
-- local directories (`.html` / `.htm`)
-- single files
-- URLs
+```bash
+oratos audit testdata/minimal_site --format json --output /tmp/minimal.json
+```
 
-It extracts:
-
-- title, meta description, canonical URLs, language
-- headings (h1–h6)
-- links and images (including alt text and dimensions when present)
-- Open Graph and Twitter card tags
-- JSON-LD blocks (with basic JSON validity and detected `@type` values)
-- an approximated main text
-- basic landmark/form signals
+Inspect `pages[0].findings` in the JSON output.
 
 ## Implementation notes
 
-Extraction uses the `scraper` crate and favors deterministic parsing over perfect rendering.
+- Crate: `oratos-html` (`parse_html`, `load_pages`).
+- Invalid HTML is tolerated where possible (see `tolerates_invalid_html` test).
 
 ## Tests
 
-See `crates/oratos-html/tests/fixtures.rs` and `testdata/*` fixtures.
+```bash
+cargo test -p oratos-html
+```
 
 ## Limitations
 
-No JS execution; no CSS layout knowledge; limited link resolution.
+Main-text extraction is heuristic (not a browser layout engine).
 
 ## Future improvements
 
-Sitemap-aware crawling, richer landmark detection, and more robust internal link resolution.
-
+Optional lazy `PageSource` for full HTML (see ADR 0005 / #26).

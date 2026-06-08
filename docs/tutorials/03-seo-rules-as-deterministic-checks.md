@@ -2,36 +2,44 @@
 
 ## Mental model
 
-SEO audits are mostly audits of *extractable signals*: titles, descriptions, canonicals, and headings.
+Each SEO rule maps to a `rule_id` (for example `seo.missing-title`) with a severity and recommendation.
 
 ## Why it matters
 
-Search engines and link unfurlers rely on these signals to understand and present your pages.
+Deterministic rules are fast, repeatable, and ideal for CI — unlike subjective “SEO scores” from opaque services.
 
-## How Oratos models it
+## Try it
 
-Oratos emits findings in the `Seo` category for rules such as:
+```bash
+oratos audit testdata/broken_site --format console
+```
 
-- missing / too-short / too-long titles
-- missing / too-short / too-long meta descriptions
-- missing / multiple canonicals
-- missing / multiple `<h1>`
-- heading hierarchy skips
-- missing Open Graph and Twitter card metadata
+Compare scores with the good site:
+
+```bash
+oratos audit testdata/good_site --format console
+```
+
+Suppress a rule via config (v0.2):
+
+```toml
+[audit]
+ignore_rules = ["seo.missing-twitter-card"]
+```
 
 ## Implementation notes
 
-Rules run per page and return a list of normalized findings (`rule_id`, severity, category, message, recommendation).
+- Rules live in `crates/oratos-audit/src/rules.rs` (`SeoRules`).
+- Full catalog: [rules.md](../rules.md).
 
 ## Tests
 
-Audit tests use the `testdata/broken_site` and `testdata/good_site` fixtures.
+Per-rule tests: `crates/oratos-audit/tests/rule_cases.rs`.
 
 ## Limitations
 
-These checks are heuristics. They cannot tell whether a given title is “good,” only whether it is missing or obviously problematic.
+Open Graph / Twitter checks are presence-based, not pixel-level preview validation.
 
 ## Future improvements
 
-Sitemap integration and richer page-type detection.
-
+Per-rule registry and configurable severities (v0.2 architecture).

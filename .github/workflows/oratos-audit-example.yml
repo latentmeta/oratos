@@ -1,0 +1,25 @@
+# Example workflow: run Oratos in CI (copy to .github/workflows/oratos-audit.yml)
+name: Oratos audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Oratos
+        run: cargo install oratos --locked
+
+      - name: Audit static site
+        run: oratos audit examples/static_site --format sarif --output oratos.sarif
+
+      - name: Upload SARIF
+        uses: actions/upload-artifact@v4
+        with:
+          name: oratos-sarif
+          path: oratos.sarif

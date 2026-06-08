@@ -416,6 +416,33 @@ impl Rule for StructuredDataRules {
             ));
         }
 
+        if page.json_ld_blocks.iter().all(|b| b.valid_json)
+            && page.url_or_path.contains("/blog")
+            && !all_types.iter().any(|t| t == "Article" || t == "BlogPosting")
+        {
+            findings.push(Finding::new(
+                "structured.missing-article",
+                Severity::Info,
+                Category::StructuredData,
+                "Blog-like URL without Article or BlogPosting JSON-LD.",
+            ));
+        }
+
+        let is_site_root = page.url_or_path.ends_with("/index.html")
+            || page.url_or_path.ends_with("/index.htm")
+            || page.url_or_path.ends_with('/');
+        if page.json_ld_blocks.iter().all(|b| b.valid_json)
+            && is_site_root
+            && !all_types.iter().any(|t| t == "Organization" || t == "WebSite")
+        {
+            findings.push(Finding::new(
+                "structured.missing-organization",
+                Severity::Info,
+                Category::StructuredData,
+                "Site root page without Organization or WebSite JSON-LD.",
+            ));
+        }
+
         let important_images: Vec<_> = page
             .images
             .iter()

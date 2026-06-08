@@ -1,0 +1,18 @@
+# Example Oratos configuration (v0.2.0)
+# Copy to your site root as `oratos.toml`.
+
+[audit]
+fail_under = 85.0
+strict = false
+format = "console"
+ignore_rules = [
+  "seo.missing-twitter-card",
+]
+changed_only = false
+
+[crawl]
+enabled = false
+max_pages = 25
+max_depth = 2
+respect_robots = true
+use_sitemap = true

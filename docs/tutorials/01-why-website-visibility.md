@@ -8,6 +8,17 @@
 
 If a page’s title, description, headings, or structured data are missing or inconsistent, the same content will be harder to discover, summarize, and navigate.
 
+## Try it
+
+From the repository root:
+
+```bash
+cargo install --path crates/oratos-cli
+oratos audit examples/static_site
+```
+
+You should see category scores and per-page findings with stable `rule_id`s (for example `seo.missing-canonical`).
+
 ## How Oratos models it
 
 Oratos models each page as a set of extractable signals (metadata, headings, links, images, text) and produces normalized findings across categories.
@@ -15,17 +26,23 @@ Oratos models each page as a set of extractable signals (metadata, headings, lin
 ## Implementation notes
 
 - The CLI loads HTML pages, runs deterministic checks, and renders reports.
-- Oratos never rewrites user files in v0.1.0.
+- Oratos never rewrites user files automatically — use `oratos prompt html` for LLM-assisted fixes you review.
 
 ## Tests
 
-The repository includes fixture sites under `testdata/` and unit/integration tests for parsing and auditing.
+```bash
+cargo test -p oratos-audit
+cargo test -p oratos-html
+```
+
+Fixture sites live under `testdata/` and `examples/static_site/`.
 
 ## Limitations
 
-v0.1.0 does not execute JavaScript and does not attempt full WCAG compliance.
+- No JavaScript execution (static HTML only).
+- Not a full WCAG compliance engine.
+- URL audits fetch one page unless crawl is enabled (v0.2+).
 
 ## Future improvements
 
-Configurable scoring, sitemap support, and framework adapters.
-
+See [roadmap.md](../roadmap.md) for v0.3+ LLM workflows and framework adapters.

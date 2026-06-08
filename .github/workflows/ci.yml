@@ -46,3 +46,9 @@ jobs:
           name: lcov-report
           path: lcov.info
           if-no-files-found: error
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: lcov.info
+        continue-on-error: true

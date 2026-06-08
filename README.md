@@ -5,15 +5,19 @@
 Oratos audits and improves websites without owning your workflow. It works on local HTML directories, static exports, and live URLs — useful in CI/CD like Credo, Sobelow, Ruff, or Lighthouse CI.
 
 
-[![Coverage Status](https://coveralls.io/repos/github/latentmeta/oratos/badge.svg?branch=main)](https://coveralls.io/latentmeta/oratos/ex_data_sketch?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/latentmeta/oratos/badge.svg?branch=main)](https://coveralls.io/github/latentmeta/oratos?branch=main)
 
 
 
 ## Install
 
+**crates.io** (recommended):
+
 ```bash
 cargo install oratos
 ```
+
+**GitHub Releases** — download `oratos-v*-{linux,macos,windows}-*.tar.gz` from the [Releases](https://github.com/latentmeta/oratos/releases) page, extract, and add the binary to your `PATH`.
 
 From a git checkout:
 
@@ -50,13 +54,16 @@ oratos prompt html examples/static_site/index.html
 ## CLI
 
 ```
-oratos audit <target> [--format console|json|markdown|html|sarif] [--output PATH] [--fail-under SCORE] [--strict]
+oratos audit <target> [--format console|json|markdown|html|sarif] [--output PATH] [--fail-under SCORE] [--strict] [--crawl] [--changed-only] [--config PATH]
 oratos generate llms <target> [--output PATH]
 oratos generate metadata <target> [--output PATH]
 oratos prompt html <file-or-url> [--output PATH]
+oratos prompt phoenix <file-or-url> [--output PATH]
 ```
 
 `<target>` may be a directory (`./priv/static`, `./dist`), a single HTML file, or a URL (`https://example.com`).
+
+**URL audits:** by default a URL fetches one page. Enable multi-page crawl with `--crawl` or `[crawl] enabled = true` in `oratos.toml` (see [Configuration](docs/configuration.md)).
 
 ## What Oratos checks
 
@@ -94,6 +101,8 @@ See [docs/phoenix.md](docs/phoenix.md) and [docs/ci.md](docs/ci.md).
 - [Remediation prompts](docs/remediation-prompts.md)
 - [Tutorials](docs/tutorials/)
 - [Publishing to crates.io](docs/publishing.md)
+- [Roadmap](docs/roadmap.md)
+- [pre-commit](docs/integrations/pre-commit.md) · [Node/Python](docs/integrations/node-python.md)
 
 ## Development
 

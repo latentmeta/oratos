@@ -14,6 +14,8 @@ CRATES=(
   oratos
 )
 
+PUBLISH_DELAY="${PUBLISH_DELAY:-90}"
+
 if [[ "${1:-}" == "--dry-run" ]]; then
   echo "Dry run: validate workspace and package the first crate (oratos-core)."
   echo "Dependent crates cannot be packaged until oratos-core exists on crates.io."
@@ -23,11 +25,27 @@ if [[ "${1:-}" == "--dry-run" ]]; then
   exit 0
 fi
 
+start="${PUBLISH_FROM:-}"
+publishing=false
+if [[ -z "${start}" ]]; then
+  publishing=true
+fi
+
 for crate in "${CRATES[@]}"; do
+  if [[ -n "${start}" && "${crate}" != "${start}" ]]; then
+    continue
+  fi
+  if [[ -n "${start}" && "${crate}" == "${start}" ]]; then
+    publishing=true
+    start=""
+  fi
+  if [[ "${publishing}" != true ]]; then
+    continue
+  fi
   echo "==> ${crate}"
   cargo publish -p "$crate"
-  echo "Waiting for crates.io to index ${crate}..."
-  sleep 45
+  echo "Waiting ${PUBLISH_DELAY}s for crates.io to index ${crate}..."
+  sleep "${PUBLISH_DELAY}"
 done
 
 echo "Done."

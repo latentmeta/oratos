@@ -13,6 +13,7 @@ keywords.workspace = true
 categories.workspace = true
 description = "Recommendation and prompt generation for Oratos"
 [dependencies]
+anyhow = { workspace = true }
 oratos-audit = { workspace = true }
 oratos-core = { workspace = true }
 oratos-html = { workspace = true }

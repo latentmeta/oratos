@@ -10,7 +10,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 rust-version = "1.74"
 license = "MIT"
@@ -30,7 +30,9 @@ reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"
 scraper = "0.22"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+toml = "0.8"
 thiserror = "2"
+quick-xml = "0.37"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = "2"
@@ -38,8 +40,8 @@ walkdir = "2"
 insta = { version = "1", features = ["yaml"] }
 wiremock = "0.6"
 
-oratos-core = { path = "crates/oratos-core", version = "0.1.0" }
-oratos-html = { path = "crates/oratos-html", version = "0.1.0" }
-oratos-audit = { path = "crates/oratos-audit", version = "0.1.0" }
-oratos-generate = { path = "crates/oratos-generate", version = "0.1.0" }
-oratos-report = { path = "crates/oratos-report", version = "0.1.0" }
+oratos-core = { path = "crates/oratos-core", version = "0.2.0" }
+oratos-html = { path = "crates/oratos-html", version = "0.2.0" }
+oratos-audit = { path = "crates/oratos-audit", version = "0.2.0" }
+oratos-generate = { path = "crates/oratos-generate", version = "0.2.0" }
+oratos-report = { path = "crates/oratos-report", version = "0.2.0" }

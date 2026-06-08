@@ -45,6 +45,8 @@ Each finding uses a stable `rule_id` you can grep in reports or silence in futur
 | `structured.missing-webpage` | Info | No `WebPage` type in JSON-LD |
 | `structured.missing-breadcrumb-list` | Info | No `BreadcrumbList` in JSON-LD |
 | `structured.missing-image-object` | Info | No `ImageObject` when images are present |
+| `structured.missing-article` | Info | Blog-like URL without Article/BlogPosting JSON-LD |
+| `structured.missing-organization` | Info | Site root without Organization/WebSite JSON-LD |
 
 ## LLM readiness (`llm.*`)
 
