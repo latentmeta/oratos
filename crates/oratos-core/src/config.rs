@@ -114,8 +114,7 @@ pub fn apply_ignore_rules(report: &mut crate::AuditReport, ignore: &[String]) {
         return;
     }
     for page in &mut report.pages {
-        page
-            .findings
+        page.findings
             .retain(|f| !ignore.iter().any(|id| id == &f.rule_id));
         page.scores = crate::CategoryScores::from_findings(&page.findings);
     }

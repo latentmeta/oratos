@@ -4,7 +4,10 @@ use oratos_core::AuditReport;
 use oratos_html::HtmlPage;
 
 /// Generate a remediation prompt tuned for Phoenix static export layouts (`priv/static`).
-pub fn generate_phoenix_remediation_prompt(page: &HtmlPage, report: Option<&AuditReport>) -> String {
+pub fn generate_phoenix_remediation_prompt(
+    page: &HtmlPage,
+    report: Option<&AuditReport>,
+) -> String {
     let mut prompt = String::from(
         "# Phoenix HTML remediation task\n\n\
          You are updating a **Phoenix static export** HTML file (typically under `priv/static/`). \
@@ -46,7 +49,11 @@ mod tests {
 
     #[test]
     fn phoenix_prompt_mentions_priv_static() {
-        let page = parse_html("/priv/static/index.html", "<html><body></body></html>", true);
+        let page = parse_html(
+            "/priv/static/index.html",
+            "<html><body></body></html>",
+            true,
+        );
         let prompt = generate_phoenix_remediation_prompt(&page, None);
         assert!(prompt.contains("priv/static"));
     }

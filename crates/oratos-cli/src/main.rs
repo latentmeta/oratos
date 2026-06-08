@@ -147,8 +147,7 @@ struct AuditOptions<'a> {
 
 fn load_config(explicit: Option<&Path>, target: &str) -> Result<OratosConfig> {
     if let Some(path) = explicit {
-        return Ok(OratosConfig::load(path)?
-            .unwrap_or_default());
+        return Ok(OratosConfig::load(path)?.unwrap_or_default());
     }
     let start = Path::new(target);
     Ok(OratosConfig::discover(start)?
@@ -160,11 +159,7 @@ async fn run_audit(opts: AuditOptions<'_>) -> Result<ExitCode> {
     let cfg = load_config(opts.config_path, opts.target)?;
 
     let format = opts.format.to_string();
-    let format = cfg
-        .audit
-        .format
-        .as_deref()
-        .unwrap_or(format.as_str());
+    let format = cfg.audit.format.as_deref().unwrap_or(format.as_str());
 
     let fail_under = opts.fail_under.or(cfg.audit.fail_under);
     let strict = opts.strict || cfg.audit.strict.unwrap_or(false);
@@ -320,9 +315,7 @@ async fn resolve_prompt_page(
         let canonical_target = path.canonicalize().ok();
         let page = all
             .iter()
-            .find(|p| {
-                Path::new(&p.url_or_path).canonicalize().ok() == canonical_target
-            })
+            .find(|p| Path::new(&p.url_or_path).canonicalize().ok() == canonical_target)
             .cloned()
             .or_else(|| all.first().cloned())
             .with_context(|| format!("no HTML found at: {file_or_url}"))?;

@@ -418,7 +418,9 @@ impl Rule for StructuredDataRules {
 
         if page.json_ld_blocks.iter().all(|b| b.valid_json)
             && page.url_or_path.contains("/blog")
-            && !all_types.iter().any(|t| t == "Article" || t == "BlogPosting")
+            && !all_types
+                .iter()
+                .any(|t| t == "Article" || t == "BlogPosting")
         {
             findings.push(Finding::new(
                 "structured.missing-article",
@@ -433,7 +435,9 @@ impl Rule for StructuredDataRules {
             || page.url_or_path.ends_with('/');
         if page.json_ld_blocks.iter().all(|b| b.valid_json)
             && is_site_root
-            && !all_types.iter().any(|t| t == "Organization" || t == "WebSite")
+            && !all_types
+                .iter()
+                .any(|t| t == "Organization" || t == "WebSite")
         {
             findings.push(Finding::new(
                 "structured.missing-organization",

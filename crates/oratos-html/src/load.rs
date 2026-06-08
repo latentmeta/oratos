@@ -183,7 +183,10 @@ fn resolve_crawl_link(base: &Url, current: &str, href: &str) -> Option<String> {
         return None;
     }
     let path = joined.path().to_lowercase();
-    if path.ends_with(".html") || path.ends_with(".htm") || path.ends_with('/') || !path.contains('.')
+    if path.ends_with(".html")
+        || path.ends_with(".htm")
+        || path.ends_with('/')
+        || !path.contains('.')
     {
         Some(joined.to_string())
     } else {

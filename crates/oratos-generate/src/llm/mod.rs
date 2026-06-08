@@ -31,9 +31,7 @@ impl LlmProvider for OpenAiCompatibleProvider {
     }
 
     fn complete(&self, _prompt: &str) -> Result<String> {
-        anyhow::bail!(
-            "LLM provider support is preview-only in v0.3; configure in a future release"
-        )
+        anyhow::bail!("LLM provider support is preview-only in v0.3; configure in a future release")
     }
 }
 

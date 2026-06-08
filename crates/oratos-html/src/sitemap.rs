@@ -40,9 +40,11 @@ pub fn urls_from_sitemap_xml(xml: &str, base: &Url) -> Result<Vec<String>> {
 }
 
 fn resolve_sitemap_loc(base: &Url, loc: &str) -> String {
-    Url::parse(loc)
-        .map(|u| u.to_string())
-        .unwrap_or_else(|_| base.join(loc.trim_start_matches('/')).unwrap_or_else(|_| base.clone()).to_string())
+    Url::parse(loc).map(|u| u.to_string()).unwrap_or_else(|_| {
+        base.join(loc.trim_start_matches('/'))
+            .unwrap_or_else(|_| base.clone())
+            .to_string()
+    })
 }
 
 #[cfg(test)]
