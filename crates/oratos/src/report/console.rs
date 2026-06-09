@@ -84,10 +84,10 @@ fn category_label(cat: Category) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use insta::assert_snapshot;
     use crate::core::{
         AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
     };
+    use insta::assert_snapshot;
 
     fn sample_report() -> AuditReport {
         let finding = Finding::new(

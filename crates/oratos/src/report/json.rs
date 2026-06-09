@@ -8,8 +8,8 @@ pub fn format_json(report: &AuditReport) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use insta::assert_snapshot;
     use crate::core::{AuditReport, AuditTarget, TargetKind};
+    use insta::assert_snapshot;
 
     #[test]
     fn json_has_expected_top_level_keys() {

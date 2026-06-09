@@ -78,10 +78,10 @@ mod tests {
 
     #[test]
     fn markdown_output_snapshot() {
-        use insta::assert_snapshot;
         use crate::core::{
             AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
         };
+        use insta::assert_snapshot;
 
         let finding = Finding::new(
             "seo.missing-title",

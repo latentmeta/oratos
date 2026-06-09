@@ -9,8 +9,8 @@ pub mod report;
 pub use audit::{audit_pages, resolve_target, Rule};
 pub use core::{
     apply_ignore_rules, AuditConfig, AuditReport, AuditTarget, Category, CategoryScores,
-    ConfigError, CrawlConfig, Finding, Location, OratosConfig, PageAudit, PageRef,
-    ScoreBreakdown, Severity, TargetKind,
+    ConfigError, CrawlConfig, Finding, Location, OratosConfig, PageAudit, PageRef, ScoreBreakdown,
+    Severity, TargetKind,
 };
 pub use generate::{
     generate_html_remediation_prompt, generate_llms_txt, generate_metadata_recommendations,

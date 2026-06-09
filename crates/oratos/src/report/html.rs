@@ -91,10 +91,10 @@ fn html_escape(s: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use insta::assert_snapshot;
     use crate::core::{
         AuditReport, AuditTarget, Category, Finding, PageAudit, PageRef, Severity, TargetKind,
     };
+    use insta::assert_snapshot;
 
     #[test]
     fn html_output_snapshot() {
