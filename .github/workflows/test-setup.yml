@@ -1,0 +1,19 @@
+name: Test Setup
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/**']
+
+jobs:
+  smoke:
+    name: Workflow smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release -p oratos
+      - run: ./target/release/oratos --help
+      - run: ./target/release/oratos audit examples/static_site

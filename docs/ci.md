@@ -1,6 +1,18 @@
 # CI/CD
 
-Oratos is designed to run as a quality gate in CI.
+Oratos uses GitHub Actions workflows modeled after the [petrify](https://github.com/thanos/petrify) CI layout.
+
+## Workflows
+
+| Workflow | File | Purpose |
+|----------|------|---------|
+| **CI** | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Format, Clippy, cross-platform tests, coverage (90% line gate), `cargo audit`, release builds, crates.io dry-run |
+| **Code Quality** | [`.github/workflows/code-quality.yml`](../.github/workflows/code-quality.yml) | Format, Clippy, `cargo doc` (warnings denied), `cargo deny` |
+| **Dependencies** | [`.github/workflows/dependencies.yml`](../.github/workflows/dependencies.yml) | Weekly security audit; optional PRs for dependency updates |
+| **Release** | [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Tag builds (Linux, macOS aarch64, Windows), GitHub Release assets, crates.io publish |
+| **Test Setup** | [`.github/workflows/test-setup.yml`](../.github/workflows/test-setup.yml) | Smoke test after workflow changes |
+
+Example consumer workflow for running Oratos against your site: [`.github/workflows/oratos-audit-example.yml`](../.github/workflows/oratos-audit-example.yml).
 
 ## Fail thresholds
 
@@ -55,7 +67,7 @@ For human-readable PR review, add a JSON or HTML report the same way:
 
 ## Coverage gate
 
-Use `cargo-llvm-cov` to enforce high line coverage in CI:
+The CI workflow enforces **90% line coverage** with `cargo-llvm-cov`:
 
 ```yaml
 - name: Install cargo-llvm-cov
@@ -65,6 +77,10 @@ Use `cargo-llvm-cov` to enforce high line coverage in CI:
   run: cargo llvm-cov --workspace --all-features --lcov --output-path lcov.info --ignore-filename-regex 'crates/oratos/src/(main|changed)\.rs' --fail-under-lines 90
 ```
 
-This fails the workflow if line coverage drops below `90%`.
-The CLI entrypoint file is excluded from this aggregate metric because it is exercised through process-level integration tests (`assert_cmd`) rather than in-process unit coverage.
+The CLI entrypoint files (`main.rs`, `changed.rs`) are excluded from this aggregate metric because they are exercised through process-level integration tests (`assert_cmd`) rather than in-process unit coverage.
 
+## Release secrets
+
+Tag pushes (`v*`) trigger the release workflow. Configure:
+
+- `CRATES_IO_TOKEN` — API token for `cargo publish` (repository secret)

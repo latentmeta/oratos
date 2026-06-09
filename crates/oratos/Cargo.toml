@@ -13,6 +13,10 @@ keywords.workspace = true
 categories.workspace = true
 description.workspace = true
 
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
 [lib]
 name = "oratos"
 path = "src/lib.rs"

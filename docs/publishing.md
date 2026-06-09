@@ -27,9 +27,13 @@ cargo publish -p oratos --dry-run --allow-dirty
 
 ## Publish
 
+**Manual:**
+
 ```bash
 ./scripts/publish-crates.sh
 ```
+
+**Automated:** pushing a `v*` tag runs [`.github/workflows/release.yml`](../.github/workflows/release.yml), which builds release binaries and publishes to crates.io when `CRATES_IO_TOKEN` is configured as a repository secret.
 
 ## After publish
 

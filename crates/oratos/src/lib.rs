@@ -1,4 +1,4 @@
-//! Website visibility intelligence for SEO, accessibility, structured metadata, and AI readiness.
+#![doc = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/../../README.md"))]
 
 pub mod audit;
 pub mod core;
