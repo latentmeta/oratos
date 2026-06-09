@@ -13,7 +13,7 @@ If a page’s title, description, headings, or structured data are missing or in
 From the repository root:
 
 ```bash
-cargo install --path crates/oratos-cli
+cargo install --path crates/oratos
 oratos audit examples/static_site
 ```
 
@@ -31,8 +31,8 @@ Oratos models each page as a set of extractable signals (metadata, headings, lin
 ## Tests
 
 ```bash
-cargo test -p oratos-audit
-cargo test -p oratos-html
+cargo test -p oratos
+cargo test -p oratos
 ```
 
 Fixture sites live under `testdata/` and `examples/static_site/`.

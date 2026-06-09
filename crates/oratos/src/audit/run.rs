@@ -1,0 +1,73 @@
+use std::path::Path;
+
+use crate::core::{AuditReport, Category, CategoryScores, Finding, PageAudit, PageRef, Severity};
+use crate::html::HtmlPage;
+
+use super::rules::{all_rules, build_known_paths, AuditContext};
+use super::target::resolve_target;
+
+pub fn audit_pages(target: &str, pages: &[HtmlPage]) -> AuditReport {
+    let mut audit_target = resolve_target(target);
+    if audit_target.kind == crate::core::TargetKind::Missing && !pages.is_empty() {
+        audit_target.kind = if target.starts_with("http://") || target.starts_with("https://") {
+            crate::core::TargetKind::Url
+        } else {
+            crate::core::TargetKind::File
+        };
+    }
+    let site_root = if audit_target.kind == crate::core::TargetKind::Directory {
+        Some(target.to_string())
+    } else {
+        None
+    };
+
+    let known_paths = build_known_paths(pages);
+
+    let has_llms_txt = site_root
+        .as_ref()
+        .map(|root| Path::new(root).join("llms.txt").exists())
+        .unwrap_or(false);
+
+    let ctx = AuditContext {
+        site_root,
+        known_paths,
+        has_llms_txt,
+    };
+
+    let rules = all_rules();
+    let page_audits: Vec<PageAudit> = pages
+        .iter()
+        .map(|page| {
+            let mut findings = Vec::new();
+            for rule in &rules {
+                findings.extend(rule.check(page, &ctx));
+            }
+            let scores = CategoryScores::from_findings(&findings);
+            PageAudit {
+                page: PageRef {
+                    url_or_path: page.url_or_path.clone(),
+                    title: page.title.clone(),
+                },
+                findings,
+                scores,
+            }
+        })
+        .collect();
+
+    let mut report = AuditReport::new(audit_target, page_audits);
+
+    if !ctx.has_llms_txt {
+        report.findings.push(
+            Finding::new(
+                "llm.missing-llms-txt",
+                Severity::Info,
+                Category::LlmReadiness,
+                "No llms.txt file found at site root.",
+            )
+            .with_recommendation("Run `oratos generate llms <target>` to create a draft llms.txt."),
+        );
+        report.scores = CategoryScores::from_findings(&report.findings);
+    }
+
+    report
+}

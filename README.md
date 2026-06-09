@@ -22,7 +22,7 @@ cargo install oratos
 From a git checkout:
 
 ```bash
-cargo install --path crates/oratos-cli
+cargo install --path crates/oratos
 ```
 
 Or build from source:

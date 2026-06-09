@@ -1,6 +1,6 @@
 # LLM providers (v0.3 preview)
 
-Oratos v0.2 includes a **preview** LLM abstraction in `oratos-generate` (`LlmProvider` trait). It is **not** wired to the CLI yet.
+Oratos v0.2 includes a **preview** LLM abstraction in `oratos::generate` (`LlmProvider` trait). It is **not** wired to the CLI yet.
 
 ## Planned configuration
 

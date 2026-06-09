@@ -27,7 +27,7 @@ Oratos v0.1.0 does not call LLM APIs. It generates deterministic prompts and art
 
 ## Tests
 
-`oratos-generate` includes unit tests that assert llms.txt output includes expected sections.
+`oratos::generate` includes unit tests that assert llms.txt output includes expected sections.
 
 ## Limitations
 

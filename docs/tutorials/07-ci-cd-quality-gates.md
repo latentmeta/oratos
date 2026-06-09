@@ -49,8 +49,8 @@ ignore_rules = ["seo.missing-twitter-card"]
 ## Tests
 
 ```bash
-cargo test -p oratos-cli
-cargo test -p oratos-report
+cargo test -p oratos
+cargo test -p oratos
 ```
 
 ## Limitations

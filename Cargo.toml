@@ -1,13 +1,6 @@
 [workspace]
 resolver = "2"
-members = [
-    "crates/oratos-core",
-    "crates/oratos-html",
-    "crates/oratos-audit",
-    "crates/oratos-generate",
-    "crates/oratos-report",
-    "crates/oratos-cli",
-]
+members = ["crates/oratos"]
 
 [workspace.package]
 version = "0.2.0"
@@ -39,9 +32,3 @@ url = "2"
 walkdir = "2"
 insta = { version = "1", features = ["yaml"] }
 wiremock = "0.6"
-
-oratos-core = { path = "crates/oratos-core", version = "0.2.0" }
-oratos-html = { path = "crates/oratos-html", version = "0.2.0" }
-oratos-audit = { path = "crates/oratos-audit", version = "0.2.0" }
-oratos-generate = { path = "crates/oratos-generate", version = "0.2.0" }
-oratos-report = { path = "crates/oratos-report", version = "0.2.0" }

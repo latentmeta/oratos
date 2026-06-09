@@ -23,7 +23,7 @@ Or from source:
 ```bash
 git clone https://github.com/latentmeta/oratos
 cd oratos
-cargo install --path crates/oratos-cli
+cargo install --path crates/oratos
 ```
 
 **Prebuilt binaries** (when the release workflow completes):
@@ -68,12 +68,12 @@ oratos prompt html <file-or-url> [--output PATH]
 
 ## Workspace crates
 
-- `oratos-core` - models, scoring, findings
-- `oratos-html` - load and parse HTML
-- `oratos-audit` - rule engine (~30 rules; [full catalog](https://github.com/latentmeta/oratos/blob/main/docs/rules.md))
-- `oratos-generate` - llms.txt, metadata, prompts
-- `oratos-report` - formatters
-- `oratos` - CLI package (`oratos` binary; sources in `crates/oratos-cli`)
+- `oratos::core` - models, scoring, findings
+- `oratos::html` - load and parse HTML
+- `oratos::audit` - rule engine (~30 rules; [full catalog](https://github.com/latentmeta/oratos/blob/main/docs/rules.md))
+- `oratos::generate` - llms.txt, metadata, prompts
+- `oratos::report` - formatters
+- `oratos` - CLI package (`oratos` binary; sources in `crates/oratos`)
 
 ## Documentation
 

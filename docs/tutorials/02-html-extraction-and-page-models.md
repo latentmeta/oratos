@@ -20,13 +20,13 @@ Inspect `pages[0].findings` in the JSON output.
 
 ## Implementation notes
 
-- Crate: `oratos-html` (`parse_html`, `load_pages`).
+- Crate: `oratos::html` (`parse_html`, `load_pages`).
 - Invalid HTML is tolerated where possible (see `tolerates_invalid_html` test).
 
 ## Tests
 
 ```bash
-cargo test -p oratos-html
+cargo test -p oratos
 ```
 
 ## Limitations

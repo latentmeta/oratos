@@ -29,12 +29,12 @@ ignore_rules = ["seo.missing-twitter-card"]
 
 ## Implementation notes
 
-- Rules live in `crates/oratos-audit/src/rules.rs` (`SeoRules`).
+- Rules live in `crates/oratos/src/audit/rules.rs` (`SeoRules`).
 - Full catalog: [rules.md](../rules.md).
 
 ## Tests
 
-Per-rule tests: `crates/oratos-audit/tests/rule_cases.rs`.
+Per-rule tests: `crates/oratos/tests/rule_cases.rs`.
 
 ## Limitations
 
