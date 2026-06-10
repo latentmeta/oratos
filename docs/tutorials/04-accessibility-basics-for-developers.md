@@ -24,7 +24,7 @@ Fix findings in HTML, then re-run the audit to confirm scores improve.
 ## Tests
 
 ```bash
-cargo test -p oratos-audit --test rule_cases -- a11y
+cargo test -p oratos --test rule_cases -- a11y
 ```
 
 ## Limitations

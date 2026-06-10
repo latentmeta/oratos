@@ -13,7 +13,7 @@ CLI-only flags are insufficient for projects that want stable ignore lists and c
 - File name: `oratos.toml` at project or site root (discovered upward).
 - Sections: `[audit]`, `[crawl]` (v0.2); `[llm]` planned v0.3.
 - CLI flags override file values.
-- TOML format via the `toml` crate in `oratos-core`.
+- TOML format via the `toml` crate in `oratos::core`.
 
 ## Consequences
 

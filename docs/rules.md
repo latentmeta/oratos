@@ -59,4 +59,4 @@ Each finding uses a stable `rule_id` you can grep in reports or silence in futur
 | `llm.little-extractable-text` | Warning | Very little main-body text |
 | `llm.no-summary-candidate` | Info | No obvious summary paragraph |
 
-Implementation: `crates/oratos-audit/src/rules.rs`.
+Implementation: `crates/oratos/src/audit/rules.rs`.

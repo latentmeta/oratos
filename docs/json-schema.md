@@ -1,6 +1,6 @@
 # JSON report schema (stable)
 
-Oratos JSON output serializes `AuditReport` from `oratos-core`.
+Oratos JSON output serializes `AuditReport` from `oratos::core`.
 
 Top-level keys:
 
@@ -25,5 +25,5 @@ Finding object keys:
 
 Stability guarantee:
 
-- The `oratos-report` crate includes an insta snapshot test for empty-report JSON shape.
+- The `oratos::report` module includes an insta snapshot test for empty-report JSON shape.
 - Additive fields may be introduced in minor releases, but existing fields should not be removed or renamed without a major-version migration note.

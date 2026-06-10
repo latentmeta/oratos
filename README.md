@@ -1,11 +1,16 @@
 # Oratos
 
+[![crates.io](https://img.shields.io/crates/v/oratos.svg)](https://crates.io/crates/oratos)
+[![docs.rs](https://docs.rs/oratos/badge.svg)](https://docs.rs/oratos)
+[![CI](https://github.com/latentmeta/oratos/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/latentmeta/oratos/actions/workflows/ci.yml)
+[![Code Quality](https://github.com/latentmeta/oratos/actions/workflows/code-quality.yml/badge.svg?branch=main)](https://github.com/latentmeta/oratos/actions/workflows/code-quality.yml)
+[![Coverage Status](https://coveralls.io/repos/github/latentmeta/oratos/badge.svg?branch=main)](https://coveralls.io/github/latentmeta/oratos?branch=main)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/latentmeta/oratos/blob/main/LICENSE)
+[![MSRV](https://img.shields.io/badge/MSRV-1.74-blue)](https://github.com/latentmeta/oratos/blob/main/Cargo.toml)
+
 **Website visibility intelligence** for SEO, accessibility, structured metadata, and AI readiness.
 
 Oratos audits and improves websites without owning your workflow. It works on local HTML directories, static exports, and live URLs — useful in CI/CD like Credo, Sobelow, Ruff, or Lighthouse CI.
-
-
-[![Coverage Status](https://coveralls.io/repos/github/latentmeta/oratos/badge.svg?branch=main)](https://coveralls.io/github/latentmeta/oratos?branch=main)
 
 
 
@@ -22,7 +27,7 @@ cargo install oratos
 From a git checkout:
 
 ```bash
-cargo install --path crates/oratos-cli
+cargo install --path crates/oratos
 ```
 
 Or build from source:
@@ -53,7 +58,7 @@ oratos prompt html examples/static_site/index.html
 
 ## CLI
 
-```
+```text
 oratos audit <target> [--format console|json|markdown|html|sarif] [--output PATH] [--fail-under SCORE] [--strict] [--crawl] [--changed-only] [--config PATH]
 oratos generate llms <target> [--output PATH]
 oratos generate metadata <target> [--output PATH]
@@ -114,4 +119,4 @@ cargo fmt --check
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see the [LICENSE file](https://github.com/latentmeta/oratos/blob/main/LICENSE).

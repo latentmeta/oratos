@@ -17,4 +17,4 @@ CI systems and GitHub Code Scanning expect valid SARIF 2.1.0 with deduplicated r
 
 ## Consequences
 
-See tests in `oratos-report/src/sarif.rs`. Future rules should always set locations when a selector is known.
+See tests in `crates/oratos/src/report/sarif.rs`. Future rules should always set locations when a selector is known.
