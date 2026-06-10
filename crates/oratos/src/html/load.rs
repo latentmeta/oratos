@@ -196,7 +196,11 @@ fn resolve_crawl_link(base: &Url, current: &str, href: &str) -> Option<String> {
 
 fn http_client() -> Result<reqwest::Client> {
     reqwest::Client::builder()
-        .user_agent("oratos/0.2.0 (+https://github.com/latentmeta/oratos)")
+        .user_agent(concat!(
+            "oratos/",
+            env!("CARGO_PKG_VERSION"),
+            " (+https://github.com/latentmeta/oratos)"
+        ))
         .build()
         .context("failed to build HTTP client")
 }

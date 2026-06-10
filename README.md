@@ -12,6 +12,8 @@
 
 Oratos audits and improves websites without owning your workflow. It works on local HTML directories, static exports, and live URLs — useful in CI/CD like Credo, Sobelow, Ruff, or Lighthouse CI.
 
+**v0.3.0** ships as a single Rust crate: the `oratos` CLI binary plus library modules for programmatic audits (`oratos::core`, `oratos::html`, `oratos::audit`, `oratos::report`, `oratos::generate`). API docs on [docs.rs](https://docs.rs/oratos) include this README.
+
 
 
 ## Install
@@ -22,7 +24,7 @@ Oratos audits and improves websites without owning your workflow. It works on lo
 cargo install oratos
 ```
 
-**GitHub Releases** — download `oratos-v*-{linux,macos,windows}-*.tar.gz` from the [Releases](https://github.com/latentmeta/oratos/releases) page, extract, and add the binary to your `PATH`.
+**GitHub Releases** — download prebuilt binaries from [Releases](https://github.com/latentmeta/oratos/releases) (`.tar.gz` on Linux/macOS, `.zip` on Windows), extract, and add the binary to your `PATH`.
 
 From a git checkout:
 
@@ -93,6 +95,29 @@ aliases: [
 
 See [docs/phoenix.md](docs/phoenix.md) and [docs/ci.md](docs/ci.md).
 
+## Library
+
+Use Oratos from Rust without shelling out to the CLI:
+
+```toml
+[dependencies]
+oratos = "0.3"
+```
+
+```rust,no_run
+use oratos::{audit_pages, load_pages, LoadOptions};
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    let pages = load_pages("examples/static_site", &LoadOptions::default()).await?;
+    let report = audit_pages("examples/static_site", &pages);
+    println!("overall score: {:.1}", report.scores.overall);
+    Ok(())
+}
+```
+
+See [docs/architecture.md](docs/architecture.md) for module layout. Upgrading from v0.2 split crates? See [release notes](release-notes-v0.3.0.md#upgrade-from-v020).
+
 ## Documentation
 
 - [Architecture](docs/architecture.md)
@@ -107,6 +132,7 @@ See [docs/phoenix.md](docs/phoenix.md) and [docs/ci.md](docs/ci.md).
 - [Tutorials](docs/tutorials/)
 - [Publishing to crates.io](docs/publishing.md)
 - [Roadmap](docs/roadmap.md)
+- [Release notes (v0.3.0)](release-notes-v0.3.0.md)
 - [pre-commit](docs/integrations/pre-commit.md) · [Node/Python](docs/integrations/node-python.md)
 
 ## Development

@@ -1,11 +1,10 @@
 ---
-source: crates/oratos-report/src/markdown.rs
-assertion_line: 104
+source: crates/oratos/src/report/markdown.rs
 expression: format_markdown(&report)
 ---
 # Oratos Audit Report
 
-**Core Version:** 0.2.0
+**Core Version:** 0.3.0
 
 **Target:** `./examples/static_site`
 
