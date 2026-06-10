@@ -56,10 +56,7 @@ pub fn generate_llms_txt(pages: &[HtmlPage], site_title: Option<&str>) -> String
 fn important_pages(pages: &[HtmlPage]) -> Vec<&HtmlPage> {
     let mut important: Vec<&HtmlPage> = pages
         .iter()
-        .filter(|p| {
-            is_site_root_path(&p.url_or_path)
-                || p.headings.iter().any(|h| h.level == 1)
-        })
+        .filter(|p| is_site_root_path(&p.url_or_path) || p.headings.iter().any(|h| h.level == 1))
         .collect();
     if important.len() < 10 {
         for page in pages {
