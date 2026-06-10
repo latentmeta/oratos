@@ -18,9 +18,9 @@ pub use generate::{
     OllamaProvider, OpenAiCompatibleProvider,
 };
 pub use html::{
-    disallowed_paths, is_disallowed, load_pages, normalize_url, parse_html, resolve_internal_path,
-    urls_from_sitemap_xml, CrawlOptions, Heading, HtmlPage, ImageInfo, JsonLdBlock, LinkInfo,
-    LoadOptions,
+    disallowed_paths, is_disallowed, is_site_root_path, load_pages, normalize_path_separators,
+    normalize_url, parse_html, resolve_internal_path, urls_from_sitemap_xml, CrawlOptions, Heading,
+    HtmlPage, ImageInfo, JsonLdBlock, LinkInfo, LoadOptions,
 };
 pub use report::{
     format_console, format_html, format_json, format_markdown, format_sarif, ReportFormat,

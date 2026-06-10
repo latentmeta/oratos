@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use std::path::Path;
 
 use crate::core::{Category, Finding, Location, Severity};
-use crate::html::HtmlPage;
+use crate::html::{is_site_root_path, normalize_path_separators, HtmlPage};
 
 pub trait Rule {
     fn id(&self) -> &'static str;
@@ -417,7 +417,7 @@ impl Rule for StructuredDataRules {
         }
 
         if page.json_ld_blocks.iter().all(|b| b.valid_json)
-            && page.url_or_path.contains("/blog")
+            && normalize_path_separators(&page.url_or_path).contains("/blog")
             && !all_types
                 .iter()
                 .any(|t| t == "Article" || t == "BlogPosting")
@@ -430,11 +430,8 @@ impl Rule for StructuredDataRules {
             ));
         }
 
-        let is_site_root = page.url_or_path.ends_with("/index.html")
-            || page.url_or_path.ends_with("/index.htm")
-            || page.url_or_path.ends_with('/');
         if page.json_ld_blocks.iter().all(|b| b.valid_json)
-            && is_site_root
+            && is_site_root_path(&page.url_or_path)
             && !all_types
                 .iter()
                 .any(|t| t == "Organization" || t == "WebSite")

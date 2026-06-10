@@ -1,4 +1,4 @@
-use crate::html::HtmlPage;
+use crate::html::{is_site_root_path, normalize_path_separators, HtmlPage};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -139,12 +139,12 @@ fn organization_json_ld(page: &HtmlPage, all_pages: &[HtmlPage]) -> Option<serde
 }
 
 fn is_root_page(page: &HtmlPage, all_pages: &[HtmlPage]) -> bool {
-    let path = page.url_or_path.trim_end_matches('/');
-    if path.is_empty() || page.url_or_path == "/" || page.url_or_path.ends_with("/index.html") {
+    let normalized = normalize_path_separators(&page.url_or_path);
+    let path = normalized.trim_end_matches('/');
+    if path.is_empty() || normalized == "/" || is_site_root_path(&page.url_or_path) {
         return true;
     }
-    let basename = page
-        .url_or_path
+    let basename = normalized
         .rsplit('/')
         .next()
         .unwrap_or_default()
@@ -154,7 +154,7 @@ fn is_root_page(page: &HtmlPage, all_pages: &[HtmlPage]) -> bool {
     }
     all_pages
         .iter()
-        .filter(|p| p.url_or_path.ends_with("/index.html"))
+        .filter(|p| is_site_root_path(&p.url_or_path))
         .count()
         <= 1
 }
