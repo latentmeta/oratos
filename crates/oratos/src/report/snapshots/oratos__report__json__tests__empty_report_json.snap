@@ -1,10 +1,9 @@
 ---
-source: crates/oratos-report/src/json.rs
-assertion_line: 41
+source: crates/oratos/src/report/json.rs
 expression: format_json(&report)
 ---
 {
-  "core_version": "0.2.0",
+  "core_version": "0.3.0",
   "target": {
     "path_or_url": "./test",
     "kind": "directory"

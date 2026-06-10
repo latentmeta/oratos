@@ -1,9 +1,8 @@
 ---
-source: crates/oratos-report/src/console.rs
-assertion_line: 115
+source: crates/oratos/src/report/console.rs
 expression: format_console(&sample_report())
 ---
-Oratos Audit Report v0.2.0
+Oratos Audit Report v0.3.0
 Target: ./examples/static_site
 Pages: 1
 

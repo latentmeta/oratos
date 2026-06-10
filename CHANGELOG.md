@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2026-06-10
+
+### Added
+
+- **Single `oratos` crate** — library modules (`oratos::core`, `oratos::html`, `oratos::audit`, `oratos::report`, `oratos::generate`) plus the `oratos` CLI binary
+- Petrify-style CI/CD workflows: CI, code quality, dependencies, release, test setup
+- `cargo deny` policy ([`deny.toml`](deny.toml))
+- Cross-platform site-root path helpers (`is_site_root_path`) for Windows backslash paths
+- docs.rs crate documentation includes the full [README](README.md)
+
+### Changed
+
+- **Breaking:** former workspace crates (`oratos-core`, `oratos-html`, `oratos-audit`, `oratos-generate`, `oratos-report`) are no longer published separately — use `oratos = "0.3"` and `use oratos::{audit_pages, load_pages, ...}`
+- `scraper` upgraded to 0.27 (drops unmaintained `fxhash` transitive dependency)
+- Release workflow publishes to crates.io on `v*` tag push (`CRATES_IO_TOKEN`); Windows assets ship as `.zip`
+- Report `core_version` is now `0.3.0`
+
+### Fixed
+
+- Windows: `structured.missing-organization` and other site-root rules failed on `\index.html` paths
+- `cargo publish --dry-run` failed when rustdoc included README from outside the crate package
+
 ## [0.2.0] - 2026-06-08
 
 ### Added
@@ -18,13 +40,12 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Workspace version 0.2.0; report headers use `core_version` 0.2.0
-- Single `oratos` crate (library modules + CLI); former workspace crates merged under `crates/oratos`
 
 ## [0.1.0] - 2026-05-27
 
 ### Added
 
-- Workspace crates: `oratos::core`, `oratos::html`, `oratos::audit`, `oratos::generate`, `oratos::report`, `oratos` (CLI)
+- Workspace crates: `oratos-core`, `oratos-html`, `oratos-audit`, `oratos-generate`, `oratos-report`, `oratos` (CLI)
 - `oratos audit` for local directories, single HTML files, and URLs
 - Report formats: console, JSON, Markdown, HTML, SARIF
 - `oratos generate llms` and `oratos generate metadata`
