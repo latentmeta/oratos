@@ -12,7 +12,7 @@
 
 Oratos audits and improves websites without owning your workflow. It works on local HTML directories, static exports, and live URLs — useful in CI/CD like Credo, Sobelow, Ruff, or Lighthouse CI.
 
-**v0.3.0** ships as a single Rust crate: the `oratos` CLI binary plus library modules for programmatic audits (`oratos::core`, `oratos::html`, `oratos::audit`, `oratos::report`, `oratos::generate`). API docs on [docs.rs](https://docs.rs/oratos) include this README.
+**v0.3.1** ships as a single Rust crate (CLI + library modules) with multi-ecosystem install paths that do **not** require Rust. API docs on [docs.rs](https://docs.rs/oratos) include this README.
 
 
 
@@ -54,8 +54,8 @@ npm install -D oratos       # npm
 ```
 
 ```elixir
-# mix.exs
-{:oratos, "~> 0.3"}
+# mix.exs — only: [:dev, :test], runtime: false
+{:oratos, "~> 0.3", only: [:dev, :test], runtime: false}
 # then: mix oratos.audit ./priv/static
 ```
 
@@ -68,6 +68,7 @@ cargo install --path crates/oratos
 ```
 
 Prebuilt binaries for Linux (x86_64/aarch64), macOS (Intel/Apple Silicon), and Windows are published on every `v*` tag with `SHA256SUMS`.
+
 ## Quick start
 
 ```bash
@@ -145,7 +146,7 @@ async fn main() -> anyhow::Result<()> {
 }
 ```
 
-See [docs/architecture.md](https://github.com/latentmeta/oratos/blob/main/docs/architecture.md) for module layout. Upgrading from v0.2 split crates? See [release notes](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.0.md#upgrade-from-v020).
+See [docs/architecture.md](https://github.com/latentmeta/oratos/blob/main/docs/architecture.md) for module layout. Upgrading from v0.2 split crates? See [v0.3.0 release notes](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.0.md#upgrade-from-v020). Latest patch notes: [v0.3.1](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.1.md).
 
 ## Documentation
 
@@ -162,7 +163,7 @@ See [docs/architecture.md](https://github.com/latentmeta/oratos/blob/main/docs/a
 - [Tutorials](https://github.com/latentmeta/oratos/tree/main/docs/tutorials)
 - [Publishing to crates.io](https://github.com/latentmeta/oratos/blob/main/docs/publishing.md)
 - [Roadmap](https://github.com/latentmeta/oratos/blob/main/docs/roadmap.md)
-- [Release notes (v0.3.0)](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.0.md)
+- [Release notes (v0.3.1)](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.1.md)
 - [pre-commit](https://github.com/latentmeta/oratos/blob/main/docs/integrations/pre-commit.md) · [Node/Python](https://github.com/latentmeta/oratos/blob/main/docs/integrations/node-python.md)
 
 ## Development

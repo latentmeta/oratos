@@ -1,7 +1,7 @@
 defmodule Oratos.MixProject do
   use Mix.Project
 
-  @version "0.3.0"
+  @version "0.3.1"
 
   def project do
     [
@@ -14,7 +14,10 @@ defmodule Oratos.MixProject do
       package: package(),
       docs: [
         main: "readme",
-        extras: ["README.md"]
+        extras: ["README.md"],
+        source_url: "https://github.com/latentmeta/oratos",
+        source_url_pattern:
+          "https://github.com/latentmeta/oratos/blob/v#{@version}/packaging/hex/%{path}#L%{line}"
       ]
     ]
   end
@@ -27,23 +30,28 @@ defmodule Oratos.MixProject do
 
   defp deps do
     [
+      {:req, "~> 0.5"},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end
 
   defp description do
     """
-    Mix wrapper for the Oratos CLI (website visibility audits).
-    Downloads a prebuilt binary from GitHub Releases — no Rust required.
+    Mix tasks for Oratos — audit Phoenix/static HTML for SEO, accessibility,
+    structured data, and LLM readiness. Downloads a prebuilt CLI (no Rust).
     """
   end
 
   defp package do
     [
+      name: "oratos",
       licenses: ["MIT"],
       links: %{
         "GitHub" => "https://github.com/latentmeta/oratos",
-        "Docs" => "https://github.com/latentmeta/oratos/blob/main/docs/install.md"
+        "Changelog" => "https://github.com/latentmeta/oratos/blob/main/CHANGELOG.md",
+        "Phoenix guide" => "https://github.com/latentmeta/oratos/blob/main/docs/phoenix.md",
+        "Install" => "https://github.com/latentmeta/oratos/blob/main/docs/install.md",
+        "Rules" => "https://github.com/latentmeta/oratos/blob/main/docs/rules.md"
       },
       files: ~w(lib mix.exs README.md)
     ]

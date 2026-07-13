@@ -5,7 +5,7 @@
 class Oratos < Formula
   desc "Website visibility intelligence for SEO, accessibility, structured data, and AI readiness"
   homepage "https://github.com/latentmeta/oratos"
-  version "0.3.0"
+  version "0.3.1"
   license "MIT"
 
   on_macos do

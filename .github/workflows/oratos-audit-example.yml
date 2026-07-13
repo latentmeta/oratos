@@ -15,7 +15,7 @@ jobs:
       - name: Install Oratos
         uses: ./.github/actions/setup-oratos
         # After publishing tags, prefer:
-        # uses: latentmeta/oratos/.github/actions/setup-oratos@v0.3.0
+        # uses: latentmeta/oratos/.github/actions/setup-oratos@v0.3.1
         with:
           version: "" # latest release
 

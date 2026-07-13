@@ -48,7 +48,7 @@ The Mix wrapper in [`packaging/hex`](../packaging/hex) is published as `:oratos`
 Consumers:
 
 ```elixir
-{:oratos, "~> 0.3"}
+{:oratos, "~> 0.3.1", only: [:dev, :test], runtime: false}
 ```
 
 Then `mix oratos.audit ./priv/static`. See [packaging/hex/README.md](../packaging/hex/README.md).
@@ -61,7 +61,7 @@ Users can install the CLI with:
 cargo install oratos
 ```
 
-The library is available for programmatic use, e.g. `oratos = "0.2"` with `use oratos::{audit_pages, load_pages, ...}`.
+The library is available for programmatic use, e.g. `oratos = "0.3"` with `use oratos::{audit_pages, load_pages, ...}`.
 
 ## Version bumps
 

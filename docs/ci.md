@@ -10,7 +10,7 @@ Install options: [install.md](install.md).
 - uses: actions/checkout@v4
 - uses: latentmeta/oratos/.github/actions/setup-oratos@main
   with:
-    version: "0.3.0"   # omit for latest
+    version: "0.3.1"   # omit for latest
 - run: oratos audit ./priv/static --fail-under 85
 ```
 

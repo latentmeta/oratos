@@ -4,7 +4,7 @@ expression: format_markdown(&report)
 ---
 # Oratos Audit Report
 
-**Core Version:** 0.3.0
+**Core Version:** 0.3.1
 
 **Target:** `./examples/static_site`
 

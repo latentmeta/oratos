@@ -30,7 +30,7 @@ repos:
         name: oratos audit
         entry: oratos audit ./priv/static --changed-only --strict
         language: python
-        additional_dependencies: ["oratos==0.3.0"]
+        additional_dependencies: ["oratos==0.3.1"]
         pass_filenames: false
         files: \.(html|htm)$
 ```

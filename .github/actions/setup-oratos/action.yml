@@ -2,7 +2,7 @@ name: 'Setup Oratos'
 description: 'Install the Oratos CLI from GitHub Releases (no Rust required)'
 inputs:
   version:
-    description: 'Oratos version (e.g. 0.3.0 or v0.3.0). Empty = latest release.'
+    description: 'Oratos version (e.g. 0.3.1 or v0.3.1). Empty = latest release.'
     required: false
     default: ''
   token:

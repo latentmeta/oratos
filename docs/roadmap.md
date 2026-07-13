@@ -20,22 +20,20 @@ CLI audit, reports, generators, crates.io, GitHub releases, CI with coverage gat
 - Petrify-style CI/CD workflows, `cargo deny`, docs.rs README
 - Windows site-root path fixes; `scraper` 0.27
 
-## v0.4.0 (distribution — in progress)
+## v0.3.1 (shipped 2026-07-13)
 
-- Expanded release matrix (linux/macOS x86_64+aarch64, Windows) + `SHA256SUMS`
-- `scripts/install.sh` (no Rust)
-- Homebrew / Scoop manifests, asdf plugin, mise docs
-- Composite GitHub Action `setup-oratos`
-- PyPI (maturin bin wheels), npm postinstall wrapper
-- Hex `:oratos` Mix tasks that manage the CLI binary
+- Multi-ecosystem install without Rust (`install.sh`, expanded release matrix + `SHA256SUMS`)
+- Packaging: Homebrew / Scoop / asdf / npm / Hex / PyPI
+- `setup-oratos` GitHub Action; Hex publish on `v*` tags
+- Security dependency upgrades (`quick-xml` 0.41, etc.)
 
-## v0.5.0 (planned)
+## v0.4.0 (planned)
 
 - LLM provider trait wired to CLI (`[llm]` config)
 - Ollama and OpenAI-compatible backends
 - Alt-text / caption review workflows (no auto-write)
 
-## v0.6.0 (planned)
+## v0.5.0 (planned)
 
 - `phoenix_seo` recommendation generator
 - Expanded Phoenix tutorials

@@ -9,8 +9,8 @@ asdf plugin add oratos https://github.com/latentmeta/asdf-oratos.git
 # or from this monorepo while developing:
 # asdf plugin add oratos "${PWD}/packaging/asdf-oratos"
 
-asdf install oratos 0.3.0
-asdf global oratos 0.3.0
+asdf install oratos 0.3.1
+asdf global oratos 0.3.1
 oratos --version
 ```
 

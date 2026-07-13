@@ -1,9 +1,16 @@
 defmodule Mix.Tasks.Oratos do
-  @shortdoc "Show Oratos CLI help (wrapper for the native binary)"
+  @shortdoc "Run the Oratos CLI (help, generate, prompt, …)"
   @moduledoc """
-  Runs `oratos --help` after ensuring the CLI binary is installed.
+  Thin wrapper around the Oratos CLI binary.
 
-  Prefer `mix oratos.audit` for audits.
+  With no arguments, prints CLI help. Otherwise forwards argv to `oratos`:
+
+      mix oratos --version
+      mix oratos generate llms ./priv/static --output priv/static/llms.txt
+      mix oratos prompt phoenix priv/static/index.html --output tmp/fix.md
+
+  For audits, prefer `mix oratos.audit`, which defaults the target to
+  `priv/static` / `dist` and is nicer in Mix aliases.
   """
 
   use Mix.Task

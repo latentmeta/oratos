@@ -9,11 +9,11 @@ Install without Rust: [docs/install.md](install.md).
 Add the Oratos Mix wrapper (manages the CLI binary):
 
 ```elixir
-# mix.exs
+# mix.exs — audit tooling only; not shipped in production
 defp deps do
   [
-    {:oratos, "~> 0.3"}
-    # {:oratos, path: "../oratos/packaging/hex"} # monorepo / local
+    {:oratos, "~> 0.3.1", only: [:dev, :test], runtime: false}
+    # {:oratos, path: "../oratos/packaging/hex", only: [:dev, :test], runtime: false}
   ]
 end
 ```
@@ -24,7 +24,7 @@ mix assets.deploy && mix phx.digest && mix phoenix.prerender
 mix oratos.audit ./priv/static --fail-under 85
 ```
 
-See [`packaging/hex`](../packaging/hex).
+Full Mix/HexDocs guide (aliases, config, CI, vs `phoenix_seo`): [hex.pm/packages/oratos](https://hex.pm/packages/oratos) · source [`packaging/hex/README.md`](../packaging/hex/README.md).
 
 ## Static export / PhoenixPrerender
 
@@ -46,8 +46,8 @@ Notes:
 
 ```bash
 oratos prompt phoenix priv/static/index.html
-# or via Mix once the binary is available:
-# mix oratos -- prompt phoenix priv/static/index.html
+# or via Mix:
+mix oratos prompt phoenix priv/static/index.html --output tmp/fix.md
 ```
 
 ## Mix aliases (PATH-based)

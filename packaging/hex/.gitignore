@@ -3,3 +3,6 @@
 /*.ez
 /doc/
 /priv/bin/
+/mix.lock
+
+

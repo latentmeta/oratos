@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.3.1] - 2026-07-13
 
 ### Added
 
@@ -11,6 +11,16 @@ All notable changes to this project will be documented in this file.
 - Composite action [`.github/actions/setup-oratos`](.github/actions/setup-oratos)
 - [docs/install.md](docs/install.md); README Install section leads with no-Rust paths
 - Release workflow publishes Hex package (`packaging/hex`) via `HEX_API_KEY` after GitHub Release assets are up
+
+### Fixed
+
+- Security: upgrade `quick-xml` to 0.41 (RUSTSEC DoS advisories), `anyhow` to 1.0.103, `quinn-proto` to 0.11.16
+- Hex package: architecture detection no longer uses `String` functions in guards (`mix compile`)
+- crates.io / docs.rs README links use absolute GitHub URLs so documentation links resolve outside the repo
+
+### Changed
+
+- Report `core_version` is now `0.3.1`
 
 ## [0.3.0] - 2026-06-10
 

@@ -48,4 +48,4 @@ Package sources: [`packaging/npm`](../../packaging/npm). On `postinstall`, the m
 ## Notes
 
 - Prefer release binaries / language wrappers in CI; reserve `cargo install oratos` for Rust contributors.
-- Override npm binary version with `ORATOS_VERSION=v0.3.0`.
+- Override npm binary version with `ORATOS_VERSION=v0.3.1`.

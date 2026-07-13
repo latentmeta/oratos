@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "oratos"
-version = "0.3.0"
+version = "0.3.1"
 description = "Website visibility intelligence for SEO, accessibility, structured metadata, and AI readiness"
 readme = "README.md"
 requires-python = ">=3.8"

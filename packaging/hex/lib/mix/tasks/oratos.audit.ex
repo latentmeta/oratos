@@ -1,13 +1,23 @@
 defmodule Mix.Tasks.Oratos.Audit do
-  @shortdoc "Run oratos audit (downloads CLI if needed)"
+  @shortdoc "Audit rendered HTML with Oratos (SEO, a11y, JSON-LD, LLM readiness)"
   @moduledoc """
-  Forwards arguments to `oratos audit`.
+  Runs `oratos audit` after ensuring the CLI binary is available.
 
-      mix oratos.audit ./priv/static --fail-under 85
+  ## Examples
+
       mix oratos.audit
+      mix oratos.audit ./priv/static --fail-under 85
+      mix oratos.audit ./priv/static --strict --format sarif --output reports/oratos.sarif
+      mix oratos.audit ./priv/static --changed-only
 
   When no target is given, defaults to `./priv/static` if that directory exists,
   otherwise `./dist`.
+
+  Common CI gate:
+
+      mix oratos.audit ./priv/static --fail-under 85 --strict
+
+  See the [package README](readme.html) for Phoenix prerender workflows and aliases.
   """
 
   use Mix.Task

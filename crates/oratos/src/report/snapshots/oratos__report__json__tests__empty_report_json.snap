@@ -3,7 +3,7 @@ source: crates/oratos/src/report/json.rs
 expression: format_json(&report)
 ---
 {
-  "core_version": "0.3.0",
+  "core_version": "0.3.1",
   "target": {
     "path_or_url": "./test",
     "kind": "directory"
