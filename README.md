@@ -18,27 +18,56 @@ Oratos audits and improves websites without owning your workflow. It works on lo
 
 ## Install
 
-**crates.io** (recommended):
+**No Rust required.** Pick your environment — full details in [docs/install.md](https://github.com/latentmeta/oratos/blob/main/docs/install.md).
+
+### Linux / macOS
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/latentmeta/oratos/main/scripts/install.sh | sh
+```
+
+### Windows
+
+Download `oratos-v*-windows-x86_64.zip` from [Releases](https://github.com/latentmeta/oratos/releases), extract `oratos.exe`, and add it to your `PATH`. Or use Scoop when available: `scoop install oratos`.
+
+### Version managers
+
+```bash
+# mise
+mise use -g github:latentmeta/oratos
+
+# asdf
+asdf plugin add oratos https://github.com/latentmeta/asdf-oratos.git
+asdf install oratos latest
+```
+
+### CI / language ecosystems
+
+```yaml
+# GitHub Actions
+- uses: latentmeta/oratos/.github/actions/setup-oratos@main
+```
+
+```bash
+pip install oratos          # PyPI
+npm install -D oratos       # npm
+```
+
+```elixir
+# mix.exs
+{:oratos, "~> 0.3"}
+# then: mix oratos.audit ./priv/static
+```
+
+### Rust contributors
 
 ```bash
 cargo install oratos
-```
-
-**GitHub Releases** — download prebuilt binaries from [Releases](https://github.com/latentmeta/oratos/releases) (`.tar.gz` on Linux/macOS, `.zip` on Windows), extract, and add the binary to your `PATH`.
-
-From a git checkout:
-
-```bash
+# or from a checkout:
 cargo install --path crates/oratos
 ```
 
-Or build from source:
-
-```bash
-cargo build --release
-./target/release/oratos --help
-```
-
+Prebuilt binaries for Linux (x86_64/aarch64), macOS (Intel/Apple Silicon), and Windows are published on every `v*` tag with `SHA256SUMS`.
 ## Quick start
 
 ```bash
@@ -70,7 +99,7 @@ oratos prompt phoenix <file-or-url> [--output PATH]
 
 `<target>` may be a directory (`./priv/static`, `./dist`), a single HTML file, or a URL (`https://example.com`).
 
-**URL audits:** by default a URL fetches one page. Enable multi-page crawl with `--crawl` or `[crawl] enabled = true` in `oratos.toml` (see [Configuration](docs/configuration.md)).
+**URL audits:** by default a URL fetches one page. Enable multi-page crawl with `--crawl` or `[crawl] enabled = true` in `oratos.toml` (see [Configuration](https://github.com/latentmeta/oratos/blob/main/docs/configuration.md)).
 
 ## What Oratos checks
 
@@ -93,7 +122,7 @@ aliases: [
 ]
 ```
 
-See [docs/phoenix.md](docs/phoenix.md) and [docs/ci.md](docs/ci.md).
+See [docs/phoenix.md](https://github.com/latentmeta/oratos/blob/main/docs/phoenix.md) and [docs/ci.md](https://github.com/latentmeta/oratos/blob/main/docs/ci.md).
 
 ## Library
 
@@ -116,24 +145,25 @@ async fn main() -> anyhow::Result<()> {
 }
 ```
 
-See [docs/architecture.md](docs/architecture.md) for module layout. Upgrading from v0.2 split crates? See [release notes](release-notes-v0.3.0.md#upgrade-from-v020).
+See [docs/architecture.md](https://github.com/latentmeta/oratos/blob/main/docs/architecture.md) for module layout. Upgrading from v0.2 split crates? See [release notes](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.0.md#upgrade-from-v020).
 
 ## Documentation
 
-- [Architecture](docs/architecture.md)
-- [Configuration](docs/configuration.md)
-- [Reports](docs/reports.md) — includes [JSON schema](docs/json-schema.md)
-- [Rule catalog](docs/rules.md)
-- [Scoring](docs/scoring.md)
-- [CI/CD](docs/ci.md)
-- [Phoenix workflows](docs/phoenix.md)
-- [llms.txt](docs/llms-txt.md)
-- [Remediation prompts](docs/remediation-prompts.md)
-- [Tutorials](docs/tutorials/)
-- [Publishing to crates.io](docs/publishing.md)
-- [Roadmap](docs/roadmap.md)
-- [Release notes (v0.3.0)](release-notes-v0.3.0.md)
-- [pre-commit](docs/integrations/pre-commit.md) · [Node/Python](docs/integrations/node-python.md)
+- [Install](https://github.com/latentmeta/oratos/blob/main/docs/install.md)
+- [Architecture](https://github.com/latentmeta/oratos/blob/main/docs/architecture.md)
+- [Configuration](https://github.com/latentmeta/oratos/blob/main/docs/configuration.md)
+- [Reports](https://github.com/latentmeta/oratos/blob/main/docs/reports.md) — includes [JSON schema](https://github.com/latentmeta/oratos/blob/main/docs/json-schema.md)
+- [Rule catalog](https://github.com/latentmeta/oratos/blob/main/docs/rules.md)
+- [Scoring](https://github.com/latentmeta/oratos/blob/main/docs/scoring.md)
+- [CI/CD](https://github.com/latentmeta/oratos/blob/main/docs/ci.md)
+- [Phoenix workflows](https://github.com/latentmeta/oratos/blob/main/docs/phoenix.md)
+- [llms.txt](https://github.com/latentmeta/oratos/blob/main/docs/llms-txt.md)
+- [Remediation prompts](https://github.com/latentmeta/oratos/blob/main/docs/remediation-prompts.md)
+- [Tutorials](https://github.com/latentmeta/oratos/tree/main/docs/tutorials)
+- [Publishing to crates.io](https://github.com/latentmeta/oratos/blob/main/docs/publishing.md)
+- [Roadmap](https://github.com/latentmeta/oratos/blob/main/docs/roadmap.md)
+- [Release notes (v0.3.0)](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.0.md)
+- [pre-commit](https://github.com/latentmeta/oratos/blob/main/docs/integrations/pre-commit.md) · [Node/Python](https://github.com/latentmeta/oratos/blob/main/docs/integrations/node-python.md)
 
 ## Development
 

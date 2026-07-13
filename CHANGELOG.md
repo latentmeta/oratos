@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Multi-ecosystem install without Rust: [`scripts/install.sh`](scripts/install.sh), expanded release matrix (linux/macOS x86_64+aarch64, Windows) + `SHA256SUMS`
+- Packaging: Homebrew formula, Scoop manifest, asdf plugin, npm wrapper, Hex/Mix package, PyPI maturin config
+- Composite action [`.github/actions/setup-oratos`](.github/actions/setup-oratos)
+- [docs/install.md](docs/install.md); README Install section leads with no-Rust paths
+
 ## [0.3.0] - 2026-06-10
 
 ### Added

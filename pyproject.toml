@@ -1,0 +1,29 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "oratos"
+version = "0.3.0"
+description = "Website visibility intelligence for SEO, accessibility, structured metadata, and AI readiness"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "latentmeta" }]
+keywords = ["seo", "accessibility", "audit", "html", "llm"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Quality Assurance",
+]
+urls = { Homepage = "https://github.com/latentmeta/oratos", Documentation = "https://docs.rs/oratos", Repository = "https://github.com/latentmeta/oratos" }
+
+[tool.maturin]
+bindings = "bin"
+manifest-path = "crates/oratos/Cargo.toml"
+module-name = "oratos"
+strip = true

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# List available Oratos versions (GitHub release tags without leading v).
+repo="${ASDF_ORATOS_REPO:-latentmeta/oratos}"
+curl -fsSL "https://api.github.com/repos/${repo}/releases" \
+  | sed -n 's/.*"tag_name": *"v\?\([^"]*\)".*/\1/p' \
+  | sort -V

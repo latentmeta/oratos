@@ -1,6 +1,6 @@
 # Release roadmap
 
-High-level plan from v0.1.0 through v0.5.0. See [CHANGELOG.md](../CHANGELOG.md) for shipped versions.
+High-level plan from v0.1.0 onward. See [CHANGELOG.md](../CHANGELOG.md) for shipped versions and [install.md](install.md) for multi-ecosystem distribution.
 
 ## v0.1.0 (shipped 2026-05-27)
 
@@ -20,7 +20,16 @@ CLI audit, reports, generators, crates.io, GitHub releases, CI with coverage gat
 - Petrify-style CI/CD workflows, `cargo deny`, docs.rs README
 - Windows site-root path fixes; `scraper` 0.27
 
-## v0.4.0 (planned)
+## v0.4.0 (distribution — in progress)
+
+- Expanded release matrix (linux/macOS x86_64+aarch64, Windows) + `SHA256SUMS`
+- `scripts/install.sh` (no Rust)
+- Homebrew / Scoop manifests, asdf plugin, mise docs
+- Composite GitHub Action `setup-oratos`
+- PyPI (maturin bin wheels), npm postinstall wrapper
+- Hex `:oratos` Mix tasks that manage the CLI binary
+
+## v0.5.0 (planned)
 
 - LLM provider trait wired to CLI (`[llm]` config)
 - Ollama and OpenAI-compatible backends
@@ -28,9 +37,7 @@ CLI audit, reports, generators, crates.io, GitHub releases, CI with coverage gat
 
 ## v0.6.0 (planned)
 
-- Mix task / Hex package wrapper
 - `phoenix_seo` recommendation generator
 - Expanded Phoenix tutorials
-- Official GitHub Action
-- pre-commit hook examples
-- Node/Python thin wrappers
+- Official pre-commit hook repo (pip-based)
+- winget package

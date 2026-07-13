@@ -1,10 +1,8 @@
-# pre-commit integration (v0.5)
+# pre-commit integration
 
 Run Oratos on changed HTML before each commit.
 
-## Hook example
-
-Add to `.pre-commit-config.yaml`:
+## Hook example (binary on PATH)
 
 ```yaml
 repos:
@@ -18,10 +16,26 @@ repos:
         files: \.(html|htm)$
 ```
 
-Install [pre-commit](https://pre-commit.com/) and run `pre-commit install`.
+Install Oratos first ([install.md](../install.md)), then [pre-commit](https://pre-commit.com/) and run `pre-commit install`.
+
+## Hook example (PyPI)
+
+Once `pip install oratos` works for your platform:
+
+```yaml
+repos:
+  - repo: local
+    hooks:
+      - id: oratos-audit
+        name: oratos audit
+        entry: oratos audit ./priv/static --changed-only --strict
+        language: python
+        additional_dependencies: ["oratos==0.3.0"]
+        pass_filenames: false
+        files: \.(html|htm)$
+```
 
 ## Notes
 
-- Requires `oratos` on `PATH` (`cargo install oratos`).
 - `--changed-only` uses `git diff HEAD` under the audit target directory.
 - For full-site gates, use CI instead (see [ci.md](../ci.md)).

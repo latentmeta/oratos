@@ -1,18 +1,31 @@
 # CI/CD
 
-Oratos uses GitHub Actions workflows modeled after the [petrify](https://github.com/thanos/petrify) CI layout.
+Oratos is designed to run as a quality gate in CI. **Prefer installing a release binary** — do not require Rust in consumer pipelines.
 
-## Workflows
+Install options: [install.md](install.md).
+
+## Official setup action
+
+```yaml
+- uses: actions/checkout@v4
+- uses: latentmeta/oratos/.github/actions/setup-oratos@main
+  with:
+    version: "0.3.0"   # omit for latest
+- run: oratos audit ./priv/static --fail-under 85
+```
+
+Example consumer workflow: [`.github/workflows/oratos-audit-example.yml`](../.github/workflows/oratos-audit-example.yml).
+
+## Oratos project CI workflows
 
 | Workflow | File | Purpose |
 |----------|------|---------|
 | **CI** | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Format, Clippy, cross-platform tests, coverage (90% line gate), `cargo audit`, release builds, crates.io dry-run |
 | **Code Quality** | [`.github/workflows/code-quality.yml`](../.github/workflows/code-quality.yml) | Format, Clippy, `cargo doc` (warnings denied), `cargo deny` |
 | **Dependencies** | [`.github/workflows/dependencies.yml`](../.github/workflows/dependencies.yml) | Weekly security audit; optional PRs for dependency updates |
-| **Release** | [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Tag builds (Linux, macOS aarch64, Windows), GitHub Release assets, crates.io publish |
+| **Release** | [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Multi-arch binaries + `SHA256SUMS`, GitHub Release, crates.io publish |
+| **PyPI** | [`.github/workflows/publish-pypi.yml`](../.github/workflows/publish-pypi.yml) | maturin wheels / sdist |
 | **Test Setup** | [`.github/workflows/test-setup.yml`](../.github/workflows/test-setup.yml) | Smoke test after workflow changes |
-
-Example consumer workflow for running Oratos against your site: [`.github/workflows/oratos-audit-example.yml`](../.github/workflows/oratos-audit-example.yml).
 
 ## Fail thresholds
 
@@ -37,12 +50,9 @@ oratos audit ./priv/static --format sarif --output reports/oratos.sarif
 Upload the report as a workflow artifact (or feed it to GitHub Code Scanning when configured):
 
 ```yaml
+- uses: latentmeta/oratos/.github/actions/setup-oratos@main
 - name: Oratos audit
-  run: |
-    cargo run --release -p oratos -- \
-      audit ./priv/static \
-      --format sarif \
-      --output oratos.sarif
+  run: oratos audit ./priv/static --format sarif --output oratos.sarif
 
 - name: Upload Oratos SARIF
   uses: actions/upload-artifact@v4
@@ -56,7 +66,7 @@ For human-readable PR review, add a JSON or HTML report the same way:
 
 ```yaml
 - name: Oratos HTML report
-  run: cargo run --release -p oratos -- audit ./priv/static --format html --output oratos.html
+  run: oratos audit ./priv/static --format html --output oratos.html
 
 - name: Upload Oratos HTML report
   uses: actions/upload-artifact@v4
@@ -84,3 +94,4 @@ The CLI entrypoint files (`main.rs`, `changed.rs`) are excluded from this aggreg
 Tag pushes (`v*`) trigger the release workflow. Configure:
 
 - `CRATES_IO_TOKEN` — API token for `cargo publish` (repository secret)
+- PyPI publish uses Trusted Publishing (`id-token: write`) when the `pypi` environment is configured; otherwise the `publish-pypi` job may be skipped or fail until set up

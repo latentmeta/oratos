@@ -24,9 +24,19 @@ jobs:
             target: x86_64-unknown-linux-gnu
             archive: tar.gz
             bin: oratos
+          - platform: linux-aarch64
+            runner: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            archive: tar.gz
+            bin: oratos
           - platform: macos-aarch64
             runner: macos-latest
             target: aarch64-apple-darwin
+            archive: tar.gz
+            bin: oratos
+          - platform: macos-x86_64
+            runner: macos-latest
+            target: x86_64-apple-darwin
             archive: tar.gz
             bin: oratos
           - platform: windows-x86_64
@@ -93,6 +103,12 @@ jobs:
         with:
           path: artifacts
           merge-multiple: true
+      - name: Generate SHA256SUMS
+        working-directory: artifacts
+        run: |
+          shopt -s nullglob
+          sha256sum oratos-* > SHA256SUMS
+          cat SHA256SUMS
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:

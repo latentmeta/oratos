@@ -1,0 +1,30 @@
+{
+  "name": "oratos",
+  "version": "0.3.0",
+  "description": "Website visibility intelligence for SEO, accessibility, structured metadata, and AI readiness",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/latentmeta/oratos.git",
+    "directory": "packaging/npm"
+  },
+  "homepage": "https://github.com/latentmeta/oratos",
+  "bugs": {
+    "url": "https://github.com/latentmeta/oratos/issues"
+  },
+  "keywords": ["seo", "accessibility", "audit", "html", "llm", "cli"],
+  "bin": {
+    "oratos": "bin/oratos.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/install.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin/",
+    "scripts/",
+    "README.md"
+  ]
+}
