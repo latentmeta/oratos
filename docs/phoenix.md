@@ -12,8 +12,8 @@ Add the Oratos Mix wrapper (manages the CLI binary):
 # mix.exs
 defp deps do
   [
-    {:oratos, path: "../oratos/packaging/hex"} # monorepo / local
-    # {:oratos, "~> 0.3"}                      # after Hex publish
+    {:oratos, "~> 0.3"}
+    # {:oratos, path: "../oratos/packaging/hex"} # monorepo / local
   ]
 end
 ```

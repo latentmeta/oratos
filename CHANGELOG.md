@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Packaging: Homebrew formula, Scoop manifest, asdf plugin, npm wrapper, Hex/Mix package, PyPI maturin config
 - Composite action [`.github/actions/setup-oratos`](.github/actions/setup-oratos)
 - [docs/install.md](docs/install.md); README Install section leads with no-Rust paths
+- Release workflow publishes Hex package (`packaging/hex`) via `HEX_API_KEY` after GitHub Release assets are up
 
 ## [0.3.0] - 2026-06-10
 

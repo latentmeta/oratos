@@ -17,7 +17,10 @@ pub fn urls_from_sitemap_xml(xml: &str, base: &Url) -> Result<Vec<String>> {
                 in_loc = true;
             }
             Ok(quick_xml::events::Event::Text(e)) if in_loc => {
-                let text = e.unescape().context("invalid sitemap xml")?.into_owned();
+                let text = e
+                    .xml10_content()
+                    .context("invalid sitemap xml")?
+                    .into_owned();
                 let loc = text.trim();
                 if !loc.is_empty() {
                     urls.push(resolve_sitemap_loc(base, loc));

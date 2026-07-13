@@ -124,3 +124,43 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - run: cargo publish -p oratos --token ${{ secrets.CRATES_IO_TOKEN }}
+
+  publish-hex:
+    name: Publish to Hex
+    needs: github-release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packaging/hex
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.17"
+          otp-version: "27"
+
+      - name: Sync package version from tag
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -i "s/@version \"[^\"]*\"/@version \"${VERSION}\"/" packaging/hex/mix.exs
+          grep -n '@version' packaging/hex/mix.exs
+
+      - name: Install Hex and deps
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+
+      - name: Publish
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          if [[ -z "${HEX_API_KEY}" ]]; then
+            echo "HEX_API_KEY secret is not set; skipping Hex publish"
+            exit 0
+          fi
+          mix hex.publish --yes

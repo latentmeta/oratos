@@ -8,7 +8,7 @@ Helpers for distributing Oratos **without requiring Rust**.
 | [`scoop/oratos.json`](scoop/oratos.json) | Scoop manifest template |
 | [`asdf-oratos/`](asdf-oratos/) | asdf plugin (GitHub Releases) |
 | [`npm/`](npm/) | npm package with `postinstall` binary download |
-| [`hex/`](hex/) | Hex/Mix package (`mix oratos.audit`) |
+| [`hex/`](hex/) | Hex/Mix package (`mix oratos.audit`); published on `v*` tags via `HEX_API_KEY` |
 
 Also:
 

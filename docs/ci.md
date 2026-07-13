@@ -94,4 +94,5 @@ The CLI entrypoint files (`main.rs`, `changed.rs`) are excluded from this aggreg
 Tag pushes (`v*`) trigger the release workflow. Configure:
 
 - `CRATES_IO_TOKEN` — API token for `cargo publish` (repository secret)
+- `HEX_API_KEY` — Hex.pm API key for `mix hex.publish` of [`packaging/hex`](../packaging/hex) (optional; job no-ops if unset)
 - PyPI publish uses Trusted Publishing (`id-token: write`) when the `pypi` environment is configured; otherwise the `publish-pypi` job may be skipped or fail until set up

@@ -33,7 +33,25 @@ cargo publish -p oratos --dry-run --allow-dirty
 ./scripts/publish-crates.sh
 ```
 
-**Automated:** pushing a `v*` tag runs [`.github/workflows/release.yml`](../.github/workflows/release.yml), which builds release binaries and publishes to crates.io when `CRATES_IO_TOKEN` is configured as a repository secret.
+**Automated:** pushing a `v*` tag runs [`.github/workflows/release.yml`](../.github/workflows/release.yml), which:
+
+1. Builds multi-arch binaries and creates a GitHub Release (`SHA256SUMS`)
+2. Publishes the Rust crate to crates.io (`CRATES_IO_TOKEN`)
+3. Publishes the Mix wrapper from [`packaging/hex`](../packaging/hex) to Hex (`HEX_API_KEY`)
+
+PyPI wheels are published by [`.github/workflows/publish-pypi.yml`](../.github/workflows/publish-pypi.yml) on the same tags.
+
+## Hex.pm
+
+The Mix wrapper in [`packaging/hex`](../packaging/hex) is published as `:oratos` on Hex when `HEX_API_KEY` is set. Create a key at https://hex.pm/dashboard/keys and add it as a repository secret.
+
+Consumers:
+
+```elixir
+{:oratos, "~> 0.3"}
+```
+
+Then `mix oratos.audit ./priv/static`. See [packaging/hex/README.md](../packaging/hex/README.md).
 
 ## After publish
 

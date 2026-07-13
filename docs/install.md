@@ -129,7 +129,8 @@ The package downloads the matching GitHub Release binary on `postinstall`. See [
 # mix.exs
 defp deps do
   [
-    {:oratos, path: "packaging/hex"} # or {:oratos, "~> 0.3"} on Hex
+    {:oratos, "~> 0.3"}
+    # {:oratos, path: "packaging/hex"} # local monorepo checkout
   ]
 end
 ```
