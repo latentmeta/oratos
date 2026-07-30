@@ -74,12 +74,16 @@ gh workflow run publish-pypi.yml --repo latentmeta/oratos
 
 Or push a new `v*` tag. The publish job fails loudly if OIDC / publisher config is wrong (it no longer uses `continue-on-error`).
 
+The sdist must ship `LICENSE` (`license-files` + `[tool.maturin] include` in `pyproject.toml`). Without it PyPI returns `400 License-File LICENSE does not exist`. Republishes use `skip-existing: true` so already-uploaded wheels are skipped.
+
 ### Consumers
 
 ```bash
 pip install oratos
 oratos audit ./dist --fail-under 85
 ```
+
+## npm (`@latentmeta/oratos`)
 
 Package sources: [`packaging/npm`](../packaging/npm). Scope: **`@latentmeta/oratos`** (public).
 

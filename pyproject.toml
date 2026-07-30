@@ -8,7 +8,8 @@ version = "0.3.1"
 description = "Website visibility intelligence for SEO, accessibility, structured metadata, and AI readiness"
 readme = "README.md"
 requires-python = ">=3.8"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "latentmeta" }]
 keywords = ["seo", "accessibility", "audit", "html", "llm"]
 classifiers = [
@@ -27,3 +28,8 @@ bindings = "bin"
 manifest-path = "crates/oratos/Cargo.toml"
 module-name = "oratos"
 strip = true
+# PyPI rejects sdists that declare License-File without shipping the file.
+include = [
+  { path = "LICENSE", format = "sdist" },
+  { path = "README.md", format = "sdist" },
+]
