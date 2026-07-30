@@ -65,7 +65,9 @@ jobs:
     name: Publish to PyPI
     needs: [wheels, sdist]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Tags always publish; workflow_dispatch can republish the current pyproject version
+    # (e.g. first Trusted Publishing upload of an already-tagged release).
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     environment: pypi
     permissions:
       id-token: write
@@ -78,4 +80,3 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
-        continue-on-error: true
