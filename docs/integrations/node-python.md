@@ -30,7 +30,7 @@ if __name__ == "__main__":
 ## Node (npm)
 
 ```bash
-npm install --save-dev oratos
+npm install --save-dev @latentmeta/oratos
 npx oratos audit ./dist --fail-under 85
 ```
 

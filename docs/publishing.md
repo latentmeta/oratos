@@ -38,8 +38,25 @@ cargo publish -p oratos --dry-run --allow-dirty
 1. Builds multi-arch binaries and creates a GitHub Release (`SHA256SUMS`)
 2. Publishes the Rust crate to crates.io (`CRATES_IO_TOKEN`)
 3. Publishes the Mix wrapper from [`packaging/hex`](../packaging/hex) to Hex (`HEX_API_KEY`)
+4. Publishes `@latentmeta/oratos` to npm (`NPM_TOKEN`)
 
 PyPI wheels are published by [`.github/workflows/publish-pypi.yml`](../.github/workflows/publish-pypi.yml) on the same tags.
+
+## npm (`@latentmeta/oratos`)
+
+1. In the [latentmeta npm org](https://www.npmjs.com/org/latentmeta), create an **Automation** access token (Granular Access Token with read/write for packages, or classic Automation token).
+2. Add it as repository secret `NPM_TOKEN` on `latentmeta/oratos`:
+   ```bash
+   gh secret set NPM_TOKEN --repo latentmeta/oratos
+   # paste the token when prompted
+   ```
+3. On each `v*` tag, the release workflow runs `npm publish --access public` from [`packaging/npm`](../packaging/npm).
+
+Consumers:
+
+```bash
+npm install --save-dev @latentmeta/oratos
+```
 
 ## Hex.pm
 

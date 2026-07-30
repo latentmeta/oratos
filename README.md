@@ -24,11 +24,17 @@ Oratos audits and improves websites without owning your workflow. It works on lo
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/latentmeta/oratos/main/scripts/install.sh | sh
+# or: brew install latentmeta/tap/oratos
 ```
 
 ### Windows
 
-Download `oratos-v*-windows-x86_64.zip` from [Releases](https://github.com/latentmeta/oratos/releases), extract `oratos.exe`, and add it to your `PATH`. Or use Scoop when available: `scoop install oratos`.
+```powershell
+scoop bucket add latentmeta https://github.com/latentmeta/scoop-bucket
+scoop install oratos
+```
+
+Or download `oratos-v*-windows-x86_64.zip` from [Releases](https://github.com/latentmeta/oratos/releases), extract `oratos.exe`, and add it to your `PATH`.
 
 ### Version managers
 
@@ -50,7 +56,7 @@ asdf install oratos latest
 
 ```bash
 pip install oratos          # PyPI
-npm install -D oratos       # npm
+npm install -D @latentmeta/oratos       # npm
 ```
 
 ```elixir

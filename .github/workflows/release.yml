@@ -164,3 +164,39 @@ jobs:
             exit 0
           fi
           mix hex.publish --yes
+
+  publish-npm:
+    name: Publish to npm
+    needs: github-release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packaging/npm
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          scope: "@latentmeta"
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          export VERSION
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.version = process.env.VERSION;
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+            console.log('version', pkg.version);
+          "
+          if [[ -z "${NODE_AUTH_TOKEN}" ]]; then
+            echo "NPM_TOKEN secret is not set; skipping npm publish"
+            exit 0
+          fi
+          npm publish --access public

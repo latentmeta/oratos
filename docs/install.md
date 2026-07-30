@@ -41,24 +41,22 @@ Download the asset for your platform from [Releases](https://github.com/latentme
 
 ## macOS
 
-**Homebrew** (when the tap is published):
+**Homebrew:**
 
 ```bash
 brew install latentmeta/tap/oratos
 ```
 
-Until then, use `install.sh` or download a macOS release asset.
-
 ## Windows
 
-**Scoop** (when the bucket is published):
+**Scoop:**
 
 ```powershell
 scoop bucket add latentmeta https://github.com/latentmeta/scoop-bucket
 scoop install oratos
 ```
 
-Until then, download `oratos-v0.3.1-windows-x86_64.zip` from [Releases](https://github.com/latentmeta/oratos/releases), extract `oratos.exe`, and add it to `PATH`.
+Or download `oratos-v0.3.1-windows-x86_64.zip` from [Releases](https://github.com/latentmeta/oratos/releases), extract `oratos.exe`, and add it to `PATH`.
 
 ## Version managers
 
@@ -118,7 +116,7 @@ Wheels ship the native binary (Ruff-style; no Python runtime dependency beyond t
 ## Node (npm)
 
 ```bash
-npm install --save-dev oratos@0.3.1
+npm install --save-dev @latentmeta/oratos@0.3.1
 npx oratos audit ./dist --fail-under 85
 ```
 

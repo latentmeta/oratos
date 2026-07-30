@@ -6,7 +6,7 @@
   "architecture": {
     "64bit": {
       "url": "https://github.com/latentmeta/oratos/releases/download/v0.3.1/oratos-v0.3.1-windows-x86_64.zip",
-      "hash": "REPLACE_AFTER_RELEASE"
+      "hash": "2457a4495e3082f53777315fd50b92ee0112c3994cbbe2784001f70b221ded9f"
     }
   },
   "bin": "oratos.exe",
@@ -16,7 +16,10 @@
   "autoupdate": {
     "architecture": {
       "64bit": {
-        "url": "https://github.com/latentmeta/oratos/releases/download/v$version/oratos-v$version-windows-x86_64.zip"
+        "url": "https://github.com/latentmeta/oratos/releases/download/v$version/oratos-v$version-windows-x86_64.zip",
+        "hash": {
+          "url": "https://github.com/latentmeta/oratos/releases/download/v$version/SHA256SUMS"
+        }
       }
     }
   }
