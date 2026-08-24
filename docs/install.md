@@ -62,6 +62,9 @@ Or download `oratos-v0.3.1-windows-x86_64.zip` from [Releases](https://github.co
 
 ### mise (preferred)
 
+Oratos is **not** in the built-in mise registry, so a bare `oratos` line fails with
+`oratos not found in mise tool registry`. Use the GitHub backend (or an alias).
+
 ```bash
 mise use -g github:latentmeta/oratos
 # or pin a version:
@@ -72,14 +75,22 @@ In `mise.toml`:
 
 ```toml
 [tools]
-"github:latentmeta/oratos" = "latest"
+"github:latentmeta/oratos" = "0.3.1"
+```
+
+To keep a short name in `.tool-versions` (`oratos 0.3.1`), add a tool alias:
+
+```toml
+# mise.toml (next to .tool-versions) or ~/.config/mise/config.toml
+[tool_alias]
+oratos = "github:latentmeta/oratos"
 ```
 
 If multiple assets match, narrow with `matching`:
 
 ```toml
 [tools]
-"github:latentmeta/oratos" = { version = "latest", matching = "oratos-" }
+"github:latentmeta/oratos" = { version = "0.3.1", matching = "oratos-" }
 ```
 
 ### asdf
