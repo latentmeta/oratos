@@ -80,5 +80,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
-          # Wheels for 0.3.1 already uploaded before sdist failed; allow completing the sdist.
+          # skip-existing: wheels may already exist from a prior partial publish
           skip-existing: true

@@ -1,12 +1,12 @@
 {
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Website visibility intelligence for SEO, accessibility, structured data, and AI readiness",
   "homepage": "https://github.com/latentmeta/oratos",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/latentmeta/oratos/releases/download/v0.3.1/oratos-v0.3.1-windows-x86_64.zip",
-      "hash": "2457a4495e3082f53777315fd50b92ee0112c3994cbbe2784001f70b221ded9f"
+      "url": "https://github.com/latentmeta/oratos/releases/download/v0.3.2/oratos-v0.3.2-windows-x86_64.zip",
+      "hash": "REPLACE_AFTER_RELEASE"
     }
   },
   "bin": "oratos.exe",

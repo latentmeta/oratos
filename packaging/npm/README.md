@@ -7,7 +7,7 @@ npm install --save-dev @latentmeta/oratos
 npx oratos audit ./dist --fail-under 85
 ```
 
-No Rust toolchain required. Override version with `ORATOS_VERSION=v0.3.1 npm install`.
+No Rust toolchain required. Override version with `ORATOS_VERSION=v0.3.2 npm install`.
 
 ## Publishing (maintainers)
 

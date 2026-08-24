@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.2] - 2026-08-24
+
+### Added
+
+- Live multi-ecosystem install paths: Homebrew tap, Scoop bucket, asdf plugin repo, `@latentmeta/oratos` on npm, PyPI wheels
+- Hex package docs aimed at Phoenix developers; Mix dep documented as `only: [:dev, :test], runtime: false`
+- Hex CLI download via Req + `Req.Tar` / `Req.ZIP` (no `curl`/`tar`/`unzip` shell-outs)
+- Release workflow publishes `@latentmeta/oratos` to npm (`NPM_TOKEN`)
+- PyPI Trusted Publishing docs; sdist includes `LICENSE` for PEP 639
+
+### Fixed
+
+- Security: upgrade transitive `h2` to 0.4.19 (`RUSTSEC-2026-0258`)
+- PyPI sdist rejected for missing `License-File`; maturin `include` + `license-files`
+- mise docs: `oratos` is not in the registry — use `github:latentmeta/oratos` or a `tool_alias`
+
+### Changed
+
+- Report `core_version` is now `0.3.2`
+- npm package scoped to `@latentmeta/oratos`
+
 ## [0.3.1] - 2026-07-13
 
 ### Added

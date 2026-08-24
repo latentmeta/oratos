@@ -27,6 +27,12 @@ CLI audit, reports, generators, crates.io, GitHub releases, CI with coverage gat
 - `setup-oratos` GitHub Action; Hex publish on `v*` tags
 - Security dependency upgrades (`quick-xml` 0.41, etc.)
 
+## v0.3.2 (shipped 2026-08-24)
+
+- Finish distribution last mile: live Brew/Scoop/asdf/npm/PyPI; Hex Req download; npm `@latentmeta/oratos`
+- Security: `h2` 0.4.19 (`RUSTSEC-2026-0258`)
+- Docs: Phoenix Hex usage, mise `tool_alias`, PyPI Trusted Publishing
+
 ## v0.4.0 (planned)
 
 - LLM provider trait wired to CLI (`[llm]` config)
