@@ -12,7 +12,7 @@ Oratos is a **native CLI** managed by this Hex package. On first use it download
 # mix.exs — audit tooling only; omit from production releases
 defp deps do
   [
-    {:oratos, "~> 0.3.1", only: [:dev, :test], runtime: false}
+    {:oratos, "~> 0.3.2", only: [:dev, :test], runtime: false}
   ]
 end
 ```
@@ -141,7 +141,7 @@ Controls **how the CLI binary is obtained**, not audit rules:
 # config/config.exs
 config :oratos,
   # CLI release to download (without leading "v")
-  version: "0.3.1",
+  version: "0.3.2",
   # Use an existing binary instead of downloading:
   # path: "/usr/local/bin/oratos",
   # Prefer `oratos` on PATH when present:
@@ -165,7 +165,7 @@ config :oratos,
 - run: mix oratos.audit ./priv/static --fail-under 85 --format sarif --output oratos.sarif
 
 # Option B — install CLI on PATH (no Hex download step)
-# - uses: latentmeta/oratos/.github/actions/setup-oratos@v0.3.1
+# - uses: latentmeta/oratos/.github/actions/setup-oratos@v0.3.2
 # - run: oratos audit ./priv/static --fail-under 85
 
 - uses: actions/upload-artifact@v4

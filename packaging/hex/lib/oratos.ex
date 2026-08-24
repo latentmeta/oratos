@@ -9,7 +9,7 @@ defmodule Oratos do
   ## Quick start (Phoenix)
 
       # mix.exs — not needed in production
-      {:oratos, "~> 0.3.1", only: [:dev, :test], runtime: false}
+      {:oratos, "~> 0.3.2", only: [:dev, :test], runtime: false}
 
       mix deps.get
       mix assets.deploy && mix phx.digest && mix phoenix.prerender
@@ -21,13 +21,13 @@ defmodule Oratos do
   ## Configuration
 
       config :oratos,
-        version: "0.3.1",
+        version: "0.3.2",
         # path: "/usr/local/bin/oratos",
         prefer_path: false
   """
 
   @repo "latentmeta/oratos"
-  @default_version "0.3.1"
+  @default_version "0.3.2"
 
   @doc "Configured Oratos CLI version (without leading `v`)."
   def version do

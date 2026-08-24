@@ -161,7 +161,7 @@ The Mix wrapper in [`packaging/hex`](../packaging/hex) is published as `:oratos`
 Consumers:
 
 ```elixir
-{:oratos, "~> 0.3.1", only: [:dev, :test], runtime: false}
+{:oratos, "~> 0.3.2", only: [:dev, :test], runtime: false}
 ```
 
 Then `mix oratos.audit ./priv/static`. See [packaging/hex/README.md](../packaging/hex/README.md).

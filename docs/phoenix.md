@@ -12,7 +12,7 @@ Add the Oratos Mix wrapper (manages the CLI binary):
 # mix.exs — audit tooling only; not shipped in production
 defp deps do
   [
-    {:oratos, "~> 0.3.1", only: [:dev, :test], runtime: false}
+    {:oratos, "~> 0.3.2", only: [:dev, :test], runtime: false}
     # {:oratos, path: "../oratos/packaging/hex", only: [:dev, :test], runtime: false}
   ]
 end

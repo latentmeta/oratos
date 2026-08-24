@@ -12,7 +12,7 @@
 
 Oratos audits and improves websites without owning your workflow. It works on local HTML directories, static exports, and live URLs — useful in CI/CD like Credo, Sobelow, Ruff, or Lighthouse CI.
 
-**v0.3.1** ships as a single Rust crate (CLI + library modules) with multi-ecosystem install paths that do **not** require Rust. API docs on [docs.rs](https://docs.rs/oratos) include this README.
+**v0.3.2** ships as a single Rust crate (CLI + library modules) with multi-ecosystem install paths that do **not** require Rust. API docs on [docs.rs](https://docs.rs/oratos) include this README.
 
 
 
@@ -152,7 +152,7 @@ async fn main() -> anyhow::Result<()> {
 }
 ```
 
-See [docs/architecture.md](https://github.com/latentmeta/oratos/blob/main/docs/architecture.md) for module layout. Upgrading from v0.2 split crates? See [v0.3.0 release notes](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.0.md#upgrade-from-v020). Latest patch notes: [v0.3.1](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.1.md).
+See [docs/architecture.md](https://github.com/latentmeta/oratos/blob/main/docs/architecture.md) for module layout. Upgrading from v0.2 split crates? See [v0.3.0 release notes](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.0.md#upgrade-from-v020). Latest patch notes: [v0.3.2](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.2.md).
 
 ## Documentation
 
@@ -169,7 +169,7 @@ See [docs/architecture.md](https://github.com/latentmeta/oratos/blob/main/docs/a
 - [Tutorials](https://github.com/latentmeta/oratos/tree/main/docs/tutorials)
 - [Publishing to crates.io](https://github.com/latentmeta/oratos/blob/main/docs/publishing.md)
 - [Roadmap](https://github.com/latentmeta/oratos/blob/main/docs/roadmap.md)
-- [Release notes (v0.3.1)](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.1.md)
+- [Release notes (v0.3.2)](https://github.com/latentmeta/oratos/blob/main/release-notes-v0.3.2.md)
 - [pre-commit](https://github.com/latentmeta/oratos/blob/main/docs/integrations/pre-commit.md) · [Node/Python](https://github.com/latentmeta/oratos/blob/main/docs/integrations/node-python.md)
 
 ## Development
